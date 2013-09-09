@@ -56,7 +56,7 @@ extern void     points ();
 extern void     points1 ();
 char            hole_data[HOLE_RADIUS * 2][HOLE_RADIUS * 2];
 char            ehole_data[HOLE_RADIUS * 2][HOLE_RADIUS * 2];
-extern char     rocketcolor[5];
+extern unsigned char rocketcolor[5];
 extern void     setcustompalette (int, float);
 extern void     starwars ();
 extern void     game ();
