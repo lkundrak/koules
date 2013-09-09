@@ -284,7 +284,7 @@ extern BitmapType bball_bitmap, apple_bitmap, inspector_bitmap, mouse_bitmap,
                 lunatic_bitmap, lball_bitmap[NLETTERS], circle_bitmap,
                 hole_bitmap, ehole_bitmap, ball_bitmap, eye_bitmap[MAXROCKETS],
                 rocket_bitmap[MAXROCKETS];
-extern char     rocketcolor[5];
+extern unsigned char rocketcolor[5];
 
 
 #endif
