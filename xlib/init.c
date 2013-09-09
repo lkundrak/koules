@@ -38,7 +38,7 @@ extern char    *Font8x8;
 extern void     fadein1 ();
 extern void     points ();
 extern void     points1 ();
-extern char     rocketcolor[5];
+extern unsigned char rocketcolor[5];
 extern void     setcustompalette (int, float);
 extern void     starwars ();
 extern void     game ();
