@@ -1,0 +1,136 @@
+#!/bin/sh
+KOULESDIR=/usr/local/bin
+XKOULESDIR=/usr/bin/X11
+if [ $TERM != console ]; then
+if [ $TERM != linux ]; then
+if [ $DISPLAY != "" ]; then
+  exec $KOULESDIR/koules.tcl
+fi
+fi
+fi
+single()
+{
+    dialog --title "Koules options" --menu "Select resolution" 9 40 2 "320x200" "low resolution" "640x480" "High resolution" 2> /tmp/dialogout.$$
+    resolution=`cat /tmp/dialogout.$$`
+    if [ $resolution = "320x200" ]; then
+      resolution="-s"
+    else
+      resolution="-l"
+    fi
+    dialog --title "Koules options" --checklist "Driver options" 9 40 2 "Mouse support" "" on "Sound support" "" on 2> /tmp/dialogout.$$
+    drivers=`cat /tmp/dialogout.$$`
+    mouse="-M"
+    sound="-d"
+    for opt in $drivers; do
+      case $opt in
+       \"Mouse) mouse=" ";;
+       \"Sound) sound=" ";;
+      esac
+    done
+    opt="$resolution $mouse $sound"
+    dialog --title "Koules options" --yesno "Save configuration" 5 40
+    case $? in
+     0) echo "$KOULESDIR/koules.svga $opt" >~/.koules.single
+    esac
+}
+server()
+{
+    dialog --title "Server options" --menu "Select resolution" 10 50 3 "Normal" "For 320x250 and 640x480 clients" "Wide" "For 320x200 and 640x400 clients" "Large" "For extra large 800x620 clients" 2> /tmp/dialogout.$$
+    resolution=`cat /tmp/dialogout.$$`
+    case $resolution in
+     "Normal") resolution="" ;;
+     "Wide") resolution="-W" ;;
+     "Large") resolution="-E" ;;
+    esac
+    dialog --title "Server options" --menu "Difficulty" 12 50 5 "0" "Nightmare" "1" "hard" "2" "medium" "3" "easy" "4" "very easy" 2> /tmp/dialogout.$$
+    diff=`cat /tmp/dialogout.$$`
+    dialog --title "Server options" --checklist "Game options" 8 40 1 "Deathmatch" "" off  2> /tmp/dialogout.$$
+    drivers=`cat /tmp/dialogout.$$`
+    deathmatch=""
+    for opt in $drivers; do
+      case $opt in
+       *Deathmatch*) deathmatch="-K";;
+      esac
+    done
+    dialog --title "Server options" --inputbox "Starting level" 9 40 "1" 2>/tmp/dialogout.$$
+    level=`cat /tmp/dialogout.$$`
+    dialog --title "Server options" --inputbox "Inet port" 9 40 "12345" 2>/tmp/dialogout.$$
+    port=`cat /tmp/dialogout.$$`
+    opt="$resolution -S $deathmatch -D $diff -L $level -P $port"
+    dialog --title "Koules options" --yesno "Save configuration" 5 40
+    case $? in
+     0) echo "$KOULESDIR/koules.svga $opt" >~/.koules.server
+    esac
+}
+client()
+{
+    dialog --title "Client options" --menu "Select resolution" 9 40 2 "320x200" "low resolution" "640x480" "High resolution" 2> /tmp/dialogout.$$
+    resolution=`cat /tmp/dialogout.$$`
+    if [ $resolution = "320x200" ]; then
+      resolution="-s"
+    else
+      resolution="-l"
+    fi
+    dialog --title "Client options" --checklist "Driver options" 9 40 2 "Mouse support" "" on "Sound support" "" on 2> /tmp/dialogout.$$
+    drivers=`cat /tmp/dialogout.$$`
+    mouse="-M"
+    sound="-d"
+    for opt in $drivers; do
+      case $opt in
+       \"Mouse) mouse=" ";;
+       \"Sound) sound=" ";;
+      esac
+    done
+    dialog --title "Client options" --inputbox "Host" 9 40 "localhost" 2>/tmp/dialogout.$$
+    host=`cat /tmp/dialogout.$$`
+    dialog --title "Client options" --inputbox "Inet port" 9 40 "12345" 2>/tmp/dialogout.$$
+    port=`cat /tmp/dialogout.$$`
+    opt="-C$host $resolution $mouse $sound -P $port"
+    dialog --title "Koules options" --yesno "Save configuration" 5 40
+    case $? in
+     0) echo "$KOULESDIR/koules.svga $opt" >~/.koules.client
+    esac
+}
+configure()
+{
+dialog --title "Koules options" --menu "Select game mode" 11 30 4 "g" "single" "s" "Network server" "c" "Network client" "b" "Back to main menu" 2> /tmp/dialogout.$$
+mode=`cat /tmp/dialogout.$$`
+case $mode in
+ g)\
+   single ;;
+ s)\
+   server ;;
+ c)\
+   client ;;
+esac
+}
+
+mainmenu()
+{
+dialog --title "Koules startup menu" --menu "Select game mode" 11 30 4 "g" "single" "s" "Network server" "c" "Network client" "m" "Configuration menu" 2> /tmp/dialogout.$$
+mode=`cat /tmp/dialogout.$$`
+case $mode in
+ g)\
+   if [ ! -r ~/.koules.single ];  then
+     single
+   fi
+   clear
+   sh ~/.koules.single ;;
+ s)\
+   if [ ! -r ~/.koules.server ];  then
+     server
+   fi
+   clear
+   sh ~/.koules.server ;;
+ c)\
+   if [ ! -r ~/.koules.client ];  then
+     client
+   fi
+   clear
+   sh ~/.koules.client ;;
+ m)
+   configure
+   mainmenu ;;
+esac
+}
+mainmenu

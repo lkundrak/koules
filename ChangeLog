@@ -1,0 +1,231 @@
+Version 1.4
+	o	Better joystick support by Ludvik Tesar
+        o	'h' for help
+	o	Fixes problems with non USS-lite(voxware) sound drivers
+		known to work well with ultrasoud project
+	o	Fixes for svgalib-1.2.11
+	o	Fixed some other small problems
+	o	Fixed bug in X11 and intro texts
+	o	Be more robust for old and/or incorrect rc files
+	o	Fixed security bug in SVGAlib version
+	o	Socklib complettely rewrote to sock.c to avoid copyright
+		problems with commercial use.
+		Sock solves some old problems with network code, but may
+		introduce new ones. Please let me know
+---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------
+Version 1.3	(Bugfix..)
+	o	Fixed crash in 51. level
+
+---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------
+Version 1.2	(SGI sound server)
+Major changes
+	o	Sound server for SGI by Rick Sayre
+	o	Sound server moved from koules directory to sound directory
+Minor changes
+	(patches by Rick Sayre)
+	o	new creator effect
+	o	SGI sound server
+	o	Fixed socklib for compatibility with SGI
+	o	spelling check
+	(patches by Jan Hubicka)
+	o	bit improved Rick's creator effect
+	o	new socklib version
+	o	probably fixed random crash bug that happended on SGI
+	o	Nasty network code bug found and fixed...no more
+		connection refused and similiar error messages
+		(I hope :)
+	o	Fixed bug with byte-ordering in soularis sound server
+	o	replaced mkdir by mkdirhier in Imakefile
+	o	Added missing errno.h into server.c and client.c
+	o	Fixed possible owerflowing in rotation of ship at
+		network play
+	o	Fixed bug in outro with more players
+	o	Added historic directory
+	o	removed calculatin of bitmap for 6th badie when
+		actually there is only 5 of them(and of course all
+		arrays are alocated just for five :)
+	o	Added experimental page flipping mode
+	o	Iproved text.h
+---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------
+Version 1.2beta1	(Networked version,OS/2 port)
+Major Changes
+	o	Four new creatures by Kamil Toman, Tomas Marsh and me!
+	o	Deathmatch for one player! (Is there some another game
+		with this feature)
+	o	OS/2 Warp support by Thomas A. K. Kjaer!
+	o	Network support! (tested on ethernet and plip line)
+	o	Official koules WWW homepagepage 
+                with documentation, screenshots, tips and tricks etc..
+
+     >>>URL=http://www.paru.cas.cz/~hubicka/koules/English<<<
+
+	o	Added new extra large screen resolution..(experimental)
+		by Bertrand Leroy and rewrote by me..
+	o	Changed some command line options..see manual pages
+	o	Improved deathmatch by Bertrand Leroy and rewrote by me
+	o	Added new user friendly starting dialog for RedHat!
+	o	Use shared images - no shared pixmaps! great for
+		older and non Xfree servers! Now MITSHM mode is possible
+		on most X's
+	o	Mitshm support now works on 16,24 and 32 bpp too.
+Minor Changes
+	o	Better private colormap support-keep first 20 colors...
+		so no more blinking of windows...
+	o	Renamed usleep emulation function to myusleep so
+		it does not collide with normal usleep so usleep
+		emulation should be enabled on platforms with usleep
+		too
+	o	Added joystick.h into distribution to allow compile
+		koules joystick support w/o joystick toolkid installed.
+		good for building rpms etc...
+	o	Improved mitshm detection-game will not crash when 
+		mitshm is not possible
+	o	drawing of letters in mitshm mode too.
+	o	Fixed compatibility for DEC
+	o	Added gameplan into rc files
+	o	Removed requirements part from manual pages
+	o	Added mygetopt for better comtability
+	o	Added level display at bottom of screen
+	o	Added switching of console when koules is started from X
+	o	ESC in submenus won't exit game anymore...
+	o	Deathmatch changes:
+		o	New scoring..
+		o	Allow spitting
+		o	Holes and inspector at the beggining
+		o	Allow new holes and bbals at end
+		o	Spitting between ships
+		o	Added GET READY message
+	o	Removed useless wasmouse variable
+	o	Added draw_reversed ball bitmap for drawing thiefs and goodies 
+	o	Added THIEFS that eats all extensions (Kamil Toman and me)
+	o	Added LUNATICS that do something very strange..(Tomas Marsh and me)
+	o	Added FINDERS that brings lots of extensins (Kamil Toman and me)
+	o	Added TTOOL (Kamil Toman and me)
+	o	Added some of Bertrand Leroy's patches
+	o	Added Thomas March's speling csechks
+	o	Added Thomas T. K. Kjaer's patches into official linie
+	o	Improved sounds in gameplan code
+	o	Updated manual pages and readme
+	o	Removed question about NETWORK support in FAQ
+	o	Added network oriented switches: SCPWDKL
+	o	Updated all makefiles
+	o	Better error signal handling in svgalib version
+	o	Fixed some small and innocent bugs...
+	o	Added support for 640x380 mode (wide mode)
+		to make possible combine svga 320x200 clients with
+		svgalib 640x480 and X's ones.
+	o	-S (Sync) renamed to -y because of -S (server) conflict
+	o	fixed unused variable c warning in framebuffer.c
+	o	added compile time flag NETSUPPORT
+	o	created client.c
+	o	created server.c
+	o	created socklib.c
+	o	created objectio.c
+	o	network releated changes: 
+		o	to menu.c added client's menus
+		o	to koules.c added game parts of client and server loop,
+			handling of keys devided into two parts-server and 
+			client, added sending of events to pyrotechnic handling
+			functions
+		o	gameplan.c
+			process effects at clients and possitions at server :)
+		o	xlib/init.c and svgalib/init.c added -C and -S options
+			for server and client
+---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------
+Version 1.1c 10/1 95	(Saving of rc files, improved portability)
+Major changes
+	o	removed gl_allocatecontext for svgalib1.2.0 compatibility
+	o	levels selector
+	o	added rc files
+	o	fast unrolled assembler memcpy for i386/mitshm mode
+	o	fixed for DEC
+	o	fixed for AIX
+	o	fixed for solaris w/o gcc
+	o	fixed for IRIX
+	o	experimental rplay support
+	o	monochrome and black and white displays support
+	o	dithering
+	o	HP-UX sound server by Lutz Vieweg <lkv@mania.robin.de>
+Minor Changes
+	o	fixed for svgalib-1.2.8
+	o	automatically private colormap when no colors avaiable
+	o	private colormap fixed
+	o	removed useless -m option
+	o	added -b for black and white
+	o	added -m for monochrome
+	o	added -f to disable fade
+	o	many portability fixes
+	o	added Imakefiles to all subdirs for DEC/solaris compatibility
+	o	created Iconfig
+	o	added simple .raw to .au converter for rplay support
+	o	added Icon.xpm(not used by koules but powerfull for 
+		filemanagers etc.
+	o	fixed difficulty spelling bug
+	o	small next level bug fixed
+	o	improved number of players delector
+	o	yet another time and time() bug fixed
+	o	gtime bug fixed
+	o	cleanups
+---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------
+Version 1.1b 8/30 95		(Bugfix release)
+	o	sound bug fixed
+---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------
+Version 1.1  8/29 95		(X version)
+Major changes
+	o	NEW funny weapon
+	o	X XLIB ORIENTED SUPPORT (256 posixcolor,truecolor)
+	o	X SHARED MEMORY ORIENTED SUPPORT(8bpp posixcolor)
+	o	new portable sound driver (linux,maybe sun and freeBSD)
+	o	network audio(NAS) support
+	o	PORTED TO HP-UX maybe it will run on most 
+		 other X based platforms
+		 tested only Xlib support(I have X11R4 :(  )
+	o	Tested on SOLARIS
+		 need bsd library-fixed
+		 only Xlib mode worked-fixed
+		 Maybe it works complete now
+	o	Resolution selected at startup(not in Makefile)
+	o	Intro sounds bug fixed-sound was always turned off in intro :)
+	o	Terrible time and time() conflict bug fixed
+	o	Spelling checks by Thomas Marsh
+	o	Mono-player mode is now simpler
+	o	Added Imakefile for better porting to other architectures
+	o	Rewrote to ANSI C
+	o	New command line options added
+	o	new SOUND MOUSE MITSHM ONLYANSI compile time options added
+	o	Added simple interface to graphics library for better porting
+	o	Added simple interface to input library
+Minor Changes
+	o	better mouse handling in menu
+	o	Added <'> and <,> into font.c
+	o	reduced size of font.o 
+	o	many cleanups
+	o	koules.c splited into koules.c and intro.c
+	o       koules.c splited into koules.c and init.c
+	o	init.c   splited into framebuffer.c and init.c
+	o	koules.c splited into koules.c and cmap.c
+	o	created cmap-x11.c
+	o	work on jlib support stopped until better jlib will be released
+	o	created:
+		 xlib/interface.h
+		 xlib/interface.c
+		 xlib/init.c
+		 xlib/shmbitmap.c/*ripped from libgl*/
+		 xlib/input.h
+		 svgalib/interface.h
+		 svgalib/init.c
+		 Problems
+		 Koules.faq
+		 for Xsupport
+
+---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------
+
+Version 1.0  7/29 95
+Initial version
+supported platforms:linux/svgalib
+input:
+mouse,joystick
+sound
+256 color
+
+---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------

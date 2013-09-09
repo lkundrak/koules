@@ -1,0 +1,498 @@
+                                   Koules 1.4
+                                       by
+                                    JAHUSOFT
+
+DESCRIPTION:
+
+Koules is a fast action  arcade-style game for UNIX and OS/2. This
+version  supports X window  system, SVGAlib  for Linux and OS/2. It
+works in fine (up to 900x620) resolution with cool 256 color graphics,
+multiplayer mode up to 5 players, full sound and, of course, network
+support. Koules is an original idea. First version of Koules was
+developed from scratch by Jan Hubicka in July 1995.
+
+AVAILABLE AT:
+
+WWW:
+http://www.paru.cas.cz/~hubicka/koules/English
+
+FTP:
+sunsite.unc.edu:  /pub/Linux/Incoming will be placed to
+                  /pub/Linux/games/video/koules
+tsx-11.mit.edu:   /pub/linux/sources/usr.games
+                  /pub/linux/binaries/usr.games
+ftp.x.com:	  /contrib/games
+
+Major changes to v1.4:
+	o	Fixed crash in 51st level
+
+Tested platforms: Linux, HP-UX, OS/2, Solaris, DEC, AIX, IRIX
+Sound: Linux, FreeBSD,OS/2, sun, HP-UX, rplay, NAS
+Network: Probably All bsd sockets compatible, tested only linux
+
+README:
+                         //  //   ///    //  //  //    /////  ///
+.                       // //   //  //  //  //  //    //    //
+            .          ////    //  //  //  //  //    ////   ///
+                      // //   //  //  //  //  //    //       //         
+                     //  //   ////    ////   ///// /////  ///
+     *         .
+                                      v1.4
+                                       by                       .      .
+                 .
+
+                       //  ///  // // //  //  ///////////////////////
+        .             // // // // // //  // //
+                  // // ///// ///// //  //  //   ///   ///// /////      
+       *          ///  // // // //  ////    // // //  //      //
+                                          //  // //  ////    //        .
+                //////////////////////////    ///   //      //
+
+      .             .       THIS PROGRAM IS FREEWARE       .            
+*
+                                       ^           .
+        .                             / \                        *  .
+            .          .             /   \
+     *         .                    /     \    .               .
+                  .      *         /       \
+                            .     /         \           .
+             .                   /           \
+       .                        /             \                        .
+            *       .          /    CREDITS    \     *        .
+                              /    ---------    \     .            *  .
+			     /                   \
+                            Sounds  by Jan  Hubicka      .            .
+  .                        Graphics  by  Jan  Hubicka  
+                          and              Kamil Toman     
+        .           *    Programming   by  Jan  Hubicka
+             .          HP-UX   sound   by  Lutz  Vieweg                 
+                       OS/2 version by Thomas A. K. Kjaer         .
+      *               Story by Kamil Toman and Jan Hubicka
+ *                   Script by Kamil Toman  and Jan Hubicka            .
+                    English Spelling checked by Thomas Marsh
+                   /                                        \         .
+      .           /               INTRODUCTION:              \
+                 /               ---------------              \
+    *           Koules  is a fast  action  arcade-style game for 
+               UNIX  and  OS/2.  This version  supports  X window 
+	      system, SVGAlib for Linux and OS/2. It works in fine 
+	     resolution.  (up  to  900x620)  with  cool  256  color 
+	    graphics, multi-player mode up to 5 players,  full sound  
+	   and, of course, network support.  Koules  is  an  original 
+	  idea. The first version of Koules was developed from scratch
+	 /                by Jan Hubicka in July 1995.                \
+        /                                                              \
+  .    /                                                                \
+      /                           REQUIREMENTS:                          \
+     /                           ---------------                          \
+    It runs well on  computers which can be marked  as faster than  a 386DX/40 
+   with math coprocessor (320x200 resolution) or 486DX2/50 (640x480 resolution).
+
+
+
+
+INSTALL:
+--------
+
+In order to install Koules 1.2 you must do the following:
+(If you encounter any problems read `Problems' and `Koules.FAQ')
+
+For X11:
+========
+
+Edit the Iconfig for your computer and type:
+        xmkmf -a
+        make
+        make install
+
+For SVGAlib:
+============
+
+You MUST be 'root' to install the game.
+Edit the Makefile.svgalib for your computer and type:
+        make -f Makefile.svgalib
+        make -f Makefile.svgalib install
+
+For HP-UX wo imake:
+===================
+
+Edit the Makefile.hpux for your computer and type:
+        make -f Makefile.hpux
+        make -f Makefile.hpux install
+
+For OS/2:
+=========
+
+Who cares?! :)
+
+Widows 95*:
+============
+
+Heavens no Koules ...
+
+*Widows 95 is a shitmark of Macro$oft
+
+USAGE:
+------
+xkoules [-SxslMmpdh]
+ -h for help
+ -s for small display(320x250)
+    for slow machines
+ -l for large display(640x480)
+    default size
+ -E extra large display size (900x620)
+ -m for monochrome mode
+ -b for black and white mode
+ -p use private colormap
+    use only if 'Could not allocate colormap' error is reported
+ -y Synchronize with X
+    use only for debugging
+ -f Disable palette fading
+ -d Disable sound support
+    Game will run faster.
+ -x Disable X11 pointer
+    Use the game's own cursor when standard X11's cursor is blinking
+ -M DISABLE shared memory support
+    Slow down the game. Use only if shared memory support crashes.
+
+koules.svga [-slMmdh]
+ -h for help
+ -s for small display(320x200)
+    for worse machines
+ -l for large display(640x480)
+    default size
+ -M disable mouse support
+    avoid gpm/selection conflict
+ -d Disable sound support
+    Game will run faster.
+
+
+Network options(common for both versions)
+ -C<host> run koules as network client
+ -S run koules as network server
+ -P<port> select port. Default is:12345
+    Use this in case that some other program is already using this port.
+
+Server options:
+ -W run server in width mode-support for 320x200 svgalib and OS/2 clients.
+    Use this in case that server is refusing your clients.
+ -L<level> select level for server
+ -D<number> select dificulty for server:
+     0: nightmare
+     1: hard
+     2: medium(default and really, really recomended)
+     3: easy
+     4: very easy
+ -K run server in deathmatch mode
+ -E extra large display size (900x620)
+
+		                  MENU SYSTEM:
+
+look at this simple hypertext diagram to understand them:
+
+            /----------------+    
+START GAME (---+      +--+   |
+X PLAYER ---)--^------+  |   +-------------+
+CONTROL----/   |         |                 |
+GAME MODE------^---------^-----------------^------------------------------+
+DIFFICULTY-----^---------^-----------------^----------------------------+ |
+SOUND ON/OFF---^---------^-----------------^---------------------------+| |
+QUIT-----------^---------^-----------------^--------------------------+|| |
+               |         |                 |                          ||| |
++--------------+         |                 |                          ||| |
+|                        +--------------+  |                          ||| |
++----Start game (The fun is begins)     |  |                          ||| |
+                                        |  |                          ||| |
++---------------------------------------+stip to (1)               (1)||| |
+|								    | ||| |
++----Select number of players (up to 5 player are possible) !!!!!   | ||| |
+								    | ||| |
++-------------------------------------------------------------------+ ||| |
+|					  			      ||| |
+PLAYER 1:(CONTROL MODE)------+					      ||| |
+(CONTROL OPTIONS)------------^---+				      ||| |
+PLAYER 2:(CONTROL MODE)------+   |				      ||| |
+(CONTROL OPTIONS)------------^---+----------------------------------+ ||| |
+PLAYER 3:(CONTROL MODE)------+   |				    | ||| |
+(CONTROL OPTIONS)------------^---+				    | ||| |
+   |                         |   |				    | ||| |
+   v                         |    \				    | ||| |
+PLAYER 5:(CONTROL MODE)------+-----)---+			    | ||| |
+(CONTROL OPTIONS)-----------------/    |			    | ||| |
+                                       |			    | ||| |
++--------------------------------------+			    | ||| |
+|								    | ||| |
+Possible selections:						    | ||| |
+KEYBOARD---------------------------------------------------------+  | ||| |
+ROTATION KEYBOARD----------------------------------------------+ |  | ||| |
+MOUSE--------------------------------------------------------+ | |  | ||| |
+JOYSTICK A *-----------------------------------------------+ | | |  | ||| |
+JOYSTICK B *---------------------------------------------+ | | | |  | ||| |
+                                                         | | | | |  | ||| |
+*)available only when JOYSTICK support enabled           | | | | |  | ||| |
++--------------------------------------------------------+ | | | |  | ||| |
+|							   | | | |  | ||| |
+use second Joystick to control player.			   | | | |  | ||| |
+use stick to rotate and button to accelerate		   | | | |  | ||| |
+see also JOYSTICK SUPPORT,CONTROL MODE			   | | | |  | ||| |
++----------------------------------------------------------+ | | |  | ||| |
+|							     | | |  | ||| |
+use first Joystick to control player.			     | | |  | ||| |
+use stick to rotate and button to accelerate		     | | |  | ||| |
+see also JOYSTICK SUPPORT,CONTROL MODE			     | | |  | ||| |
++------------------------------------------------------------+ | |  | ||| |
+|							       | |  | ||| |
+use mouse to control player.                                   | |  | ||| |
+use pointer to rotate and button to accelerate                 | |  | ||| |
+mouse must be configured in				       | |  | ||| |
+usr/local/lib/libvga.conf read this file for more              | |  | ||| |
+informations.                                                  | |  | ||| |
+use arrow to rotate player and button to accelerate.           | |  | ||| |
+mouse can be also use to control menus!                        | |  | ||| |
+there are no CONTROL OPTIONS supported                         | |  | ||| |
++--------------------------------------------------------------+ |  | ||| |
+|                                                                |  | ||| |
+use keyboard to control player                                   |  | ||| |
+3 keys are used:ACCELERATE,ROTATE LEFT,ROTATE RIGHT              |  | ||| |
+note:there are no predefined settings! use CONTROL OPTIONS       |  | ||| |
+to set keys!                                                     |  | ||| |
+see also: CONTROL OPTIONS , KEYBOARD PROBLEM                     |  | ||| |
++----------------------------------------------------------------+  | ||| |
+|                                                                   | ||| |
+use keyboard to control player                                      | ||| |
+4 keys are used:LEFT RIGHT UP AND DOWN                              | ||| |
+there are predefined settings:                                      | ||| |
+player 1:cursor box                                                 | ||| |
+player 2:Arrows on keypad.                                          | ||| |
+player 3: there are no predefined settings! use CONTROL OPTIONS     | ||| |
+player 4: there are no predefined settings! use CONTROL OPTIONS     | ||| |
+see also: CONTROL OPTIONS , KEYBOARD PROBLEM                        | ||| |
++-------------------------------------------------------------------+ ||| |
+|								      ||| |
+(CONTROL OPTIONS)may be on of following:			      ||| |
+CHANGE KEYS-------------------+					      ||| |
+CALIBRATE JOYSTICK A-------+  |					      ||| |
+CALIBRATE JOYSTICK B----+  |  +---------------------------------+     ||| |
+			|  +---------------------------------+  |     ||| |
++-----------------------+                                    |  |     ||| |
+select it to calibrate second joystick.			     |  |     ||| |
+if you still see same menu your joystick is broken           |  |     ||| |
+or joystick toolkit is not initialized(see JOYSTICK SUPPORT) |  |     ||| |
+otherwise you will see:                                      |  |     ||| |
+Move joystick to lower right corner                          |  |     ||| |
+look at your joystick:                                       |  |     ||| |
+(it is usually futuristic designed black thing)              |  |     ||| |
+there is black stick.                                        |  |     ||| |
+get it and move it into lower right corner.then press        |  |     ||| |
+red button on joystick or space key.                         |  |     ||| |
+                                                             |  |     ||| |
+then you will see:                                           |  |     ||| |
+       Center joystick                                       |  |     ||| |
+and press either button or space                             |  |     ||| |
+                                                             |  |     ||| |
+Place joystick on your desk.center the stick.                |  |     ||| |
+and smoothly and slowly press space key.                     |  |     ||| |
++------------------------------------------------------------+  |     ||| |
+|								|     ||| |
+select it to calibrate first joystick.			        |     ||| |
+if you still see same menu your joystick is broken              |     ||| |
+or joystick toolkit is not initialized(see JOYSTICK SUPPORT)    |     ||| |
+otherwise you will see:                                         |     ||| |
+Move joystick to lower right corner                             |     ||| |
+look at your joystick:                                          |     ||| |
+(it is usually futuristic designed black thing)                 |     ||| |
+there is black stick.                                           |     ||| |
+get it and move it into lower right corner.then press           |     ||| |
+red button on joystick or space key.                            |     ||| |
+                                                                |     ||| |
+then you will see:                                              |     ||| |
+       Center joystick                                          |     ||| |
+and press either button or space                                |     ||| |
+                                                                |     ||| |
+Place joystick on your desk.center the stick.                   |     ||| |
+and smoothly and slowly press space key.                        |     ||| |
++---------------------------------------------------------------+     ||| |
+|								      ||| |
+define your keys:                                                     ||| |
+if you see ACCELERATION skip to b)                                    ||| |
+if you see UP skip to a)                                              ||| |
+a)you have selected KEYBOARD                                          ||| |
+  press a key what you want use to move up			      ||| |
+  then you will see:                                                  ||| |
+  DOWN                                                                ||| |
+  press a key what you want use to move down			      ||| |
+  then you will see:                                                  ||| |
+  LEFT                                                                ||| |
+  press a key what you want use to move left			      ||| |
+  then you will see:                                                  ||| |
+  RIGHT                                                               ||| |
+  press key what you want use to move right			      ||| |
+  then a you will see:                                                ||| |
+see also:KEYBOARD PROBLEMS                                            ||| |
+b)you have selected ROTATION KEYBOARD                                 ||| |
+  press a key what you want use to accelerate   		      ||| |
+  then you will see:                                                  ||| |
+  ROTATE LEFT                                                         ||| |
+  press a key what you want use to rotate left			      ||| |
+  then you will see:                                                  ||| |
+  ROTATE RIGHT                                                        ||| |
+  press a key what you want use to rotate right			      ||| |
+  then you will see:                                                  ||| |
+see also:KEYBOARD PROBLEMS                                            ||| |
++---------------------------------------------------------------------+|| |
+|								       || |
+back to the reality						       || |
+NOT RECOMMENDED!!!! VERY DANGEROUS				       || |
+RISK OF THE PSYCHICAL ( PHYSICAL ? ) SHOCK              	       || |
++----------------------------------------------------------------------+| |
+|								        | |
+turns the space sound on/off						| |
++-----------------------------------------------------------------------+ |
+menu:									  |
+EASY----------------------------+					  |
+MEDIUM------------------+	|					  |
+HARD-------------+	|	|					  |
+                 |	|	|					  |
++----------------+	|	|					  |
+|			|	|					  |
+only for professionals!	|	|					  |
++-----------------------+	|					  |
+|				|					  |
+recommended mode		|					  |
++-------------------------------+					  |
+|									  |
+less fun								  |
++-------------------------------------------------------------------------+
+|
+menu:
+DEATH MATCH(doom)---------------+
+COOPERATIVE---------+		|
+		    |		|
++-------------------+		|
+|				|
+default mode.			|
+operates in both		|
+multi-player and		|
+mono-player modes		|
+100 levels!			|
++-------------------------------+
+|
+for doom maniacs  -try to kill each other and stay alive!
+
+
+
+
+VERY VERY EASY, isn't it? ;)
+
+
+                                 -----
+                                /     \
+                               | o | o |     
+===========================OO==============OO=============================
+
+		          PC KEYBOARD PROBLEMS
+			 ----------------------
+If you feel week go away! I have to tell you a story about stupidity of your 
+keyboard controller. Once open a time ?BM (alias Little Yellow) made a stupid
+keyboard which is not able to handle more than 4 keys at a time...
+... and they lived happily ever after.
+
+
+			    JOYSTICK SUPPORT
+                              (linux only)
+			   ------------------
+requires joystick toolkit.in distribution is patch for joystick-0.7.1 to 
+compile  under newer version of kernel(1.3.x) installation:
+tar xzvf joystick-0.7.1.tar.gz
+patch -p0 <  <home directory of koules sources>patch
+cd joystick-0.7.1
+cp joystick.h /usr/include/linux
+make joystick.o
+
+before you run game enter
+insmod joystick.o
+you will see:
+js_init: found <number> joysticks
+
+number must be 1 or 2!!!
+
+			     SOUND SUPPORT
+			    ---------------
+LINUX: koules support voxware sound driver and pcsnd pcspeaker driver.
+Other architectures: OS/2, Free BSD, HP-UX, SUN
+
+			         FAQ
+				-----
+
+Q:  Sounds not running.
+A:  You entered invalid path edit makefile.
+    Note on spaces and / at end of path.
+
+Q:  Why this stupid game don't run on my machine?
+A:  Your stupid machine is not supported. Buy another one.
+
+Q:  Why game run s l o w l y ?
+A:  Try 320x200 or 320x250 version.
+
+Q:  Why game still run s l o w l y ?
+A:  Buy sextium ;)
+
+see Koules.FAQ for more
+
+			       COPYING
+			      ---------
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+
+			         BUGS
+				------
+There is bug in my svgalib.1.2.8 and earlier:
+switch to another console, switch back and press enter it will crash your
+computer.It is not koules bug!!! Test it on svgalib/demos/keytest!
+
+Koules from the top:
+
+                             .              
+		 ---       .  .                    O
+		/   \        . .
+	       |     |    . . .. ---
+	        \   /           /   \        X           O
+                 ---           |    O|
+                                \  O/
+                                 ---       ---
+		.       O                 /O O\
+	     . . . .                     |     |
+	      . . .                       \   /
+            .  .X.  .          O           ---
+              . . .                         .
+             . . . .                       ...
+                .                         . . .
+                                         . . . .
+                                        .   .   .
+			H A V E
+			  FUN
+                           !
+
+please send a note to my e-mail address so I know how many people play Koules.
+send any comments, problems, suggestions, donations, flames, ideas for KoulesII
+email:
+hubicka@paru.cas.cz
+
+smail:
+Jan Hubicka
+Dukelskych bojovniku 1944
+Tabor 39001
+Czech Republic
+

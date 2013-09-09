@@ -1,0 +1,46 @@
+---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------
+				SVGA VERSION
+[P]	Koules crashes in the high resolution
+
+[S]	Your /usr/local/libvga.conf or /etc/vga/libvga.conf is wrong. 
+	Edit it and set your video card, monitor and mouse. 
+[S]     Svgalib is unable to use high resolution. Try other program running in 
+	640x480x256 - many svga programs can be switched to the high resolution 
+	using export GSVGAMODE=G640x480x256. Won't work? so use 320x200 version
+	or koules for X.
+[S]     Report the bug.
+
+
+[P]     Intro can be interrupted only if I use a mouse 	
+[P]	Texts cannot be interrupted
+
+[S]	Your  gpm/selection conflicts with the svgalib's mouse driver. Kill it 
+	before running koules.
+[S]	Your /usr/local/libvga.conf or /usr/vga/libvga.conf is wrong. 
+        Edit it and try to set other mouse protocol.
+[S]	Disable Koule's mouse support using -M.
+
+[P]	Koules crashes on my computer
+
+[S]	You use old svgalib version. Koules was tested on 1.2.6 / 1.2.7 version
+	Use static distribution or upgrade svgalib.
+
+---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------
+				  X VERSION
+[P]	Koules segfaulting
+
+[S]	Report bug and try -M.
+
+[P]	interface.h not found.
+
+[S]	Your makefile is wrong CFLAGS must contain -Ixlib and 
+        config defines(-DMITSHM and -DONLYANSI for most configurations)
+
+[P]     sound problems
+
+[S]	try network audio support-work on most computers
+
+[P]	display is monochrome
+
+[S]	-m option was changed from mouse to monochrome
+	remove -m option from your batch file

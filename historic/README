@@ -1,0 +1,39 @@
+Here is the oldest version of koules I found on my hardisk. It is after
+2 hours of developing. You may try it on linux/svgalib but please 
+copy executable to same directory as sound files before starting.
+
+How koules were created?
+
+Day 1:
+
+1) I wanted to learn svgalib
+2) I did simple program for drawing line
+3) I extended it to draw a circle
+4) I tryed framebuffering and moved circle around screen
+5) I tryed keyboard handling and did simple moving of line using arrow keys
+6) I decided to make simple asteroids clone and added other circles around
+7) I was lazy to do firing so I did bouncing because I like xball :)
+8) I did better graphics....
+9) I added bballs because the game was too simple
+10)I added extensions because the game was too hard
+11)My sister enjoyed the game :)))
+
+Day 2:
+
+1) I extended it for more players and did normal control of ships - no 
+   rotational keyboard anymore
+2) I played with constants and did game more addictive
+3) I brought it to my friend and we played it for about four hours.
+   We added level counting and increasing of difficulty
+4) I decided to make intro as tie fighter parody...
+5) I returned to home and started coding atarwars scroller
+
+Day 3:
+
+1) I brought to my friend new version with starwars scroller
+2) We did first version of intro text.
+3) We played a lot
+4) We added intro texts for bballs
+5) We played a lot...
+
+Next days we played game and did lots of another extensions....

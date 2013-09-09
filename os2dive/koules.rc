@@ -1,0 +1,30 @@
+#include <os2.h>
+#include "pm_main.h"
+
+#define VGA_ID_DESKSCR 502
+#define VGA_ID_NEWTEXT 503
+
+POINTER ID_RESOURCE  os2dive\icon.ico
+POINTER ID_GREENBALL os2dive\greenball.ico
+POINTER ID_REDBALL   os2dive\redball.ico
+POINTER ID_KOULES    os2dive\koules.ico
+POINTER ID_KOULES2   os2dive\koules2.ico
+POINTER ID_CURSOR    os2dive\cursor.ico
+
+MENU                                    ID_RESOURCE
+   {
+   SUBMENU      "~Options",             IDM_OPTIONS
+      {
+      MENUITEM  "E~xit",                IDM_EXIT
+      }
+   SUBMENU      "~Screen",              IDM_SCREEN
+      {
+      MENUITEM  "~FSDive",              IDM_FULLSCR
+      MENUITEM                          SEPARATOR
+      MENUITEM  "~Snap 1:1",            IDM_SNAP
+      MENUITEM  "~Center",              IDM_CENTER
+      }
+   }
+
+
+rcinclude os2dive\koules.dlg

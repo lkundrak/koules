@@ -1,0 +1,158 @@
+GENERAL:
+[Q] - What is Koules
+[Q] - What does 'Koules' mean?
+[Q] - Who makes Koules and how can I get in touch with them?
+[Q] - Where can I obtain Koules?
+[Q] - What is the latest version of Koules?
+[Q] - Will Koules ever be ported to DOS?
+[Q] - What are the point values 
+[Q] - How can I pause or abort a game of Koules?
+[Q] - What is the optimal control configuration for playing Koules?
+[Q] - How many levels are in Koules
+[Q] - How much time I need to complete Koules?
+[Q] - Do you have any hints or tips for playing Koules?
+X11:
+[Q] - What version of X11 do I need?
+LINUX:
+[Q] - Do I need a sound card?
+[Q] - What version of kernel svgalib and X11 do I need?
+HISTORY:
+[Q] - How long did it take to create Koules?
+
+---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------
+                                   GENERAL
+[Q] - What is Koules
+
+[A] - Koules is an action funny game for Unix/X11, linux/svgalib and OS/2.
+      It supports multi-player mode, high resolution, digitized sound, mouse
+      joystick, up to 640x480 resolution with cool 256 color graphics.
+      100 levels, intro / outro etc
+
+      Koules is an original game. It was developed from scratch
+      by Jan Hubicka in july 1995
+ 
+[Q] - What does 'Koules' mean?
+
+[A] - Koules is an English plural of the Czech word 'koule'(= sphere)
+
+[Q] - What computer do I need in order to play Koules?
+
+[A] - Koules  runs unix machines, running  X11  or svgalib  1.2.5+.  For 
+      640x480  you need computer faster than 486/50. 320x200  works fine
+      on 386/40  with coprocessor
+
+[Q] - Who makes Koules and how can I get in touch with them?
+
+[A] - Koules is published as freeware under GPL by Jan Hubicka
+      My Address:
+      JAHUSOFT
+      Jan Hubicka
+      Dukelskych Bojovniku 1944
+      390 03 Tabor
+      Czech Republic
+      Phone: 0041-361-32613
+      eMail: hubicka@limax.paru.cas.cz
+
+[Q] - Where can I obtain Koules?
+
+[A] - The latest version of Koules is always on the following sites:
+      limax.paru.cas.cz:/pub/linux/games/koules
+      sunsite.unc.edu  :/pub/linux/games/video
+      tsx-11.mit.edu   :/pub/linux/sources/usr.games
+                       :/pub/linux/binaries/usr.games
+
+[Q] - What is the latest version of Koules?
+
+[A] - The current version of Koules is 1.4.
+
+[Q] - Will Koules ever be ported to DOS?
+
+[A] - Maybe, maybe never 
+
+[Q] - What are the point values 
+
+[A] - Bounce something         :  +1
+      Eat extension            :  +10
+      At end of level
+      every live               :  +20
+      every lost level         :  -100
+      In deathmatch mode
+      every destroyed competitor:  +100
+
+[Q] - How can I pause or abort a game of Koules?
+
+[A] - You may stop game by:
+      pressing P
+      switching to other window
+      iconifing
+
+      Press ESC to abort Koules
+
+[Q] - What is the optimal control configuration for playing Koules?
+
+[A] - I personally prefer cursor keys.
+      There is problem with PC keyboard in more than two players mode.
+      PC keyboard controller may crash if you press more than 3 keys
+      following configuration works fine in 3 players mode:
+      player 1:  <a> <s> <d> <w>
+      player 2:  <j> <,> <l> <i>
+      player 3:  <1> <2> <3> <5> (keypad)
+
+[Q] - How many levels are in koules
+
+[A] - 99+1 (bonus level:).
+
+[Q] - How much time I need to complete koules?
+
+[A] - stupid player:    a month
+      worse player:     5 1/4 hours
+      average player:   2 1/2 hours
+      My friend and me: 50 minutes
+      god:              1/1000000 ns
+
+      (Medium difficulty)
+
+[Q] - Do you have any hints or tips for playing Koules?
+
+[A] - Standard KOULES fighters:
+        - fly near boarders (they may not be able to keep in the screen)
+        - wait near the border, when they are near fly around them, and 
+          kick them out.
+        - keep in the center
+    - Standard B_BALLS:
+        - hide behind holes
+        - try to fly around magnetic holes ( B_BALLS may fall into )
+    - Inspectors:
+        - wait behind them B_BALLS would kick them out 
+
+---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------
+                                     X11
+[Q] - What version of X11 do I need?
+
+[A] - X11R4 for xlib support
+      X11R5 for mit shared memory support
+
+---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------
+                                    LINUX
+[Q] - Do I need a sound card?
+
+[A] - You may play without sound or with sound using pcsnd driver
+
+[Q] - What version of kernel svgalib and X11 do I need?
+
+[A] - Linux Koules was developed using the 1.3 series kernel, SVGAlib
+version 1.2.6-7 and XFree86 version 3.2. It should run with any stable 
+series Linux kernel that includes the VoxWare sound driver.
+
+---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------- 8< ---------
+				   HISTORY
+[Q] - How long did it take to create Koules?
+
+[A] - The initial (1.0) version of Koules took approximately 2 days of coding
+      and two weeks of tuning, playing and creating intro
+      Version 1.1 took one week
+      Version 1.1b took one hour
+      Version 1.1c took Three days
+      Version 1.2 took four days and two weeks of testing
+      Version 1.3 took two minutes :)
+      Version 1.4 took two years

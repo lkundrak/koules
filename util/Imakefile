@@ -1,0 +1,23 @@
+
+#XCOMM ***********************************************************
+#XCOMM ---> Configuration options was moved indo Iconfig     <----
+#XCOMM ***********************************************************
+#include "../Iconfig"
+
+#ifdef HAVEUSLEEP
+DEFINES = -DHAVEUSLEEP
+#endif
+
+
+
+
+OBJS = usleep.o 
+
+SRCS = usleep.c
+
+
+NormalLibraryTarget(utils, $(OBJS))
+
+
+all::libutils.a
+all::libutils.a

@@ -1,0 +1,16 @@
+# Program dependencies
+koules.o: koules.c koules.h server.h client.h
+sound.o: sound.c
+menu.o: menu.c koules.h net.h client.h
+gameplan.o: gameplan.c koules.h server.h
+font.o: font.c font.h koules.h
+intro.o: intro.c koules.h font.h text.h
+init.o: svgalib/init.c svgalib/../koules.h svgalib/../server.h \
+ svgalib/../client.h svgalib/../net.h svgalib/../framebuffer.h
+framebuffer.o: framebuffer.c koules.h
+cmap.o: cmap.c koules.h
+rcfiles.o: rcfiles.c koules.h
+server.o: server.c sock.h koules.h server.h net.h
+client.o: client.c sock.h net.h client.h koules.h
+sock.o: sock.c sock.h
+objectsio.o: objectsio.c

@@ -1,0 +1,40 @@
+#ifndef OS2_INCLUDED
+   #include <os2.h>
+#endif
+DLGINCLUDE 1 "pm_main.h"
+
+DLGTEMPLATE IDD_DLGBOX LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Koules OS/2 options", IDD_DLGBOX, 20, 8, 296, 149, 
+            FS_SCREENALIGN | WS_VISIBLE, FCF_TITLEBAR
+    BEGIN
+        LTEXT           "The game", -1, 120, 136, 48, 9
+        LTEXT           "K O U L E S", -1, 116, 128, 54, 8
+        LTEXT           "Copyright(c) Jan Hubicka 1995", -1, 76, 120, 133, 8
+        LTEXT           "OS/2 Warp 3 Dive Version", -1, 88, 108, 115, 8
+        LTEXT           "Copyright(c) Thomas Kjaer 1996", -1, 76, 100, 136, 8
+        GROUPBOX        "Screen Size", -1, 8, 20, 80, 73
+        AUTORADIOBUTTON "320x200", IDD_320x200, 24, 68, 48, 10, WS_TABSTOP
+        AUTORADIOBUTTON "320x240", IDD_320x240, 24, 52, 48, 10
+        AUTORADIOBUTTON "640x480", IDD_640x480, 24, 36, 48, 10
+        GROUPBOX        "Colors", -1, 192, 20, 96, 72
+        AUTORADIOBUTTON "Colors",  IDD_COLORS, 208, 68, 64, 10, WS_TABSTOP
+        AUTORADIOBUTTON "Monochrome", IDD_MONO, 208, 52, 64, 10, WS_DISABLED
+        AUTORADIOBUTTON "Black/White", IDD_BW, 208, 36, 64, 10, WS_DISABLED
+        AUTOCHECKBOX    "Sound", IDD_SOUND, 192, 4, 40, 10, WS_GROUP
+        AUTOCHECKBOX    "Mouse", IDD_MOUSE, 8, 4, 40, 10, WS_GROUP
+        PUSHBUTTON      "Exit", DID_CANCEL, 120, 20, 40, 14
+        CONTROL         "", IDD_DLGBOX, 128, 60, 21, 16, "NewBtn", 
+                        WS_TABSTOP | WS_VISIBLE
+        ICON            ID_GREENBALL, -1, 20, 120, 21, 16
+        ICON            ID_GREENBALL, -1, 244, 120, 21, 16
+        ICON            ID_REDBALL, -1, 104, 76, 21, 16, WS_GROUP
+        ICON            ID_REDBALL, -1, 104, 44, 21, 16, WS_GROUP
+        ICON            ID_REDBALL, -1, 152, 76, 21, 16, WS_GROUP
+        ICON            ID_REDBALL, -1, 152, 44, 21, 16, WS_GROUP
+        ICON            ID_REDBALL, -1, 96, 60, 21, 16, WS_GROUP
+        ICON            ID_REDBALL, -1, 128, 84, 21, 16, WS_GROUP
+        ICON            ID_REDBALL, -1, 128, 36, 21, 16, WS_GROUP
+        ICON            ID_REDBALL, -1, 160, 60, 21, 16, WS_GROUP
+    END
+END

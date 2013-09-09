@@ -1,0 +1,77 @@
+#include "../Iconfig"
+
+
+#XCOMM ***********************************************************
+#XCOMM ---> Configuration options was moved indo Iconfig     <----
+#XCOMM ***********************************************************
+
+#ifdef I386ASSEMBLY
+MEMOBJ = mem.o
+MEMSRC = mem.S
+ASMDEF = -DASSEMBLY
+#endif
+
+#ifdef NETWORK
+NET = -DNETSUPPORT
+#endif
+#ifdef JOYSTICK
+JOYSTICK1 = -DJOYSTICK
+#endif
+#ifdef MITSHM
+MITSHM1 = -DMITSHM
+#endif
+#ifdef HAVEUSLEEP
+HAVEUSLEEP1 = -DHAVEUSLEEP
+#endif
+
+DEPLIBS = $(DEPXLIB)
+
+
+#ifndef SOUND
+#ifndef NAS_SOUND
+#ifndef RSOUND
+DEFINES = -DONLYANSI $(JOYSTICK1) $(NET) $(MITSHM1) $(HAVEUSLEEP1) $(SYSDEFS) $(JOYSTICK) -I.\
+	$(NAMEDEF) $(ASMDEF)
+#else
+INSTALLSOUND = True
+
+NASLIB = -L/usr/local/lib/rplay -lrplay
+
+SOUNDOBJS = rsound.o
+
+DEFINES = -DONLYANSI -DRSOUND $(JOYSTICK1) $(NET) $(MITSHM1) $(HAVEUSLEEP1) $(SYSDEFS) $(JOYSTICK) -I.\
+	$(NAMEDEF) $(ASMDEF)\
+	-DSOUNDDIR=\"$(SOUNDDIR)\" 
+#endif
+#else
+INSTALLSOUND = True
+
+NASLIB = -laudio
+
+SOUNDOBJS = nas_sound.o
+
+DEFINES = -DONLYANSI -DNAS_SOUND $(JOYSTICK1) $(NET) $(MITSHM1) $(HAVEUSLEEP1) $(SYSDEFS) $(JOYSTICK) -I.\
+	$(NAMEDEF) $(ASMDEF)\
+	-DSOUNDDIR=\"$(SOUNDDIR)\" 
+#endif 
+#else
+INSTALLSOUND = True
+
+DEFINES = -DONLYANSI -DSOUND $(JOYSTICK1) $(NET) $(MITSHM1) $(HAVEUSLEEP1) $(SYSDEFS) $(JOYSTICK) -I.\
+	$(NAMEDEF) $(ASMDEF)\
+	-DSOUNDSERVER=\"$(KOULESDIR)/$(SOUNDSERVER)\" \
+	-DSOUNDDIR=\"$(SOUNDDIR)\" \
+	-DSOUNDDEV=\"$(SOUNDDEV)\"
+#endif
+
+
+OBJS = init.o $(MEMOBJ)\
+       interface.o shmbitmap.o text.o font8x8.o
+
+SRCS = init.c $(MEMSRC)\
+       interface.c shmbitmap.c text.c font8x8.o
+
+
+NormalLibraryTarget(xlib, $(OBJS))
+
+all::libxlib.a

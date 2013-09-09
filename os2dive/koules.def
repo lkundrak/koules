@@ -1,0 +1,9 @@
+NAME        dKoules        WINDOWAPI
+
+DESCRIPTION 'Koules for OS/2 DIVE'
+
+HEAPSIZE     8192
+STACKSIZE   32768
+
+PROTMODE
+

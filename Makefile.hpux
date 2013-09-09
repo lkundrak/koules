@@ -1,0 +1,119 @@
+#this is only for very very old hpux
+#for newer ise imakefile!!
+#uncoment this to enable network support
+NET = -D NETSUPPORT
+#uncoment this for use shared memory
+SHM = -D MITSHM
+#uncoment following if you have internal compiler error problems
+#CCBUG = -DAVOID_HPUX_CC_BUG
+#don`t add / and spaces at end of path! 
+#the directories
+SOUNDDIR = /usr/local/lib/koules
+BINDIR = /usr/bin/X11
+MANDIR = /usr/man/man6
+#uncoment following three lines for linux sound support
+SOUND = -D SOUND
+SOUNDSERVER = koules.sndsrv.hp
+INSTALLSOUND = True
+
+SOUNDOBJS = sound.o
+SOUNDDEV = /dev/audio
+INSTALL = cp
+
+
+CC	 = cc
+OPTIMIZE = -I/usr/lib/X11R6 -L/usr/lib/X11R5 -L/usr/lib/X11R4  -Ixlib $(CCBUG) +O3 -n
+CFLAGS	 = $(DEFINES) $(SHM) -DSOUNDDIR="\"$(SOUNDDIR)\"" $(SOUND) $(NET) \
+	-DSOUNDSERVER=\"$(SOUNDDIR)/$(SOUNDSERVER)\" \
+	-DSOUNDDIR=\"$(SOUNDDIR)\" \
+	-DSOUNDDEV=\"$(SOUNDDEV)\"
+
+LFLAGS   =  
+
+PROGS    = xkoules
+PROGS_O  = koules.o menu.o gameplan.o font.o intro.o xlib/init.o xlib/interface.o xlib/shmbitmap.o framebuffer.o cmap-x11.o util/usleep.o rcfiles.o sound.o sock.o client.o server.o objectsio.o mygetopt.o xlib/text.o xlib/font8x8.o
+PROGS_C  = koules.c menu.c gameplan.c font.c intro.c xlib/init.c xlib/interface.c xlib/shmbitmap.c framebuffer.c cmap-x11.c util/usleep.c rcfiles.c sound.c sock.c client.c server.c objectsio.c nygetopt.c xlib/text.c xlib/font8x8.c
+LIBS     = -L /usr/X11R6/lib -lX11 -lXext
+
+
+all:	progs $(SOUNDSERVER)
+
+progs : $(PROGS)
+
+objs:	$(PROGS_O)
+
+.c.o:
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o $*.o $<
+
+.c.s:
+	$(CC) $(CFLAGS) $(OPTIMIZE) -S -o $*.s $<
+
+.o:
+	$(CC) $(CFLAGS) $(OPTIMIZE) $(LFLAGS) -o $* $*.o $(LIBS)
+	chmod a+rs,go-w $*
+
+font.o: font.c
+	@echo please be patient.
+	@echo the font.c is big and ugly i ripped it from zgv. 
+	@echo do you know about better one?
+	$(CC) $(OPTIMIZE) $(CFLAGS) -c  $< 
+
+koules.o: koules.c
+	$(CC) $(OPTIMIZE) $(CFLAGS) -c  $< 
+
+koules.sndsrv.hp.o: koules.sndsrv.hp
+	$(CC) $(OPTIMIZE) $(CFLAGS) -c  $< 
+
+xkoules: $(PROGS_O)
+	$(CC) $(OPTIMIZE) $(CFLAGS) $(LFLAGS) -o xkoules $(PROGS_O) $(LIBS) -lm
+
+install: $(PROG) $(SOUNDSERVER)
+	@echo "Koules directory is " $(BINDIR)
+	@:
+	@echo "Instalin man page to " $(MANDIR)
+	$(INSTALL) $(INSTBINFLAGS) xkoules $(MANDIR);
+	@:
+	@echo "Creating directory " $(BINDIR)
+	@if [ ! -d $(BINDIR) ]; then mkdir $(BINDIR); fi
+	$(INSTALL) $(INSTBINFLAGS) xkoules $(BINDIR)
+	@:
+	@if [ "$(INSTALLSOUND)" = "True" ];                             \
+	 then                                                           \
+		echo "Creating directory " $(SOUNDDIR);                 \
+		if [ ! -d $(SOUNDDIR) ]; then mkdir $(SOUNDDIR); fi;    \
+		echo "Copying sound server to directory " $(SOUNDDIR); \
+		$(INSTALL) $(INSTBINFLAGS) $(SOUNDSERVER) $(SOUNDDIR); \
+		echo "Copying sound files into directory " $(SOUNDDIR); \
+		cd ./sounds; set -x;                                    \
+		for file in *.raw; do                                   \
+			$(INSTALL) $(INSTDATFLAGS) $$file $(SOUNDDIR);   \
+		done;                                                   \
+	 fi
+
+clean:
+	rm -f xkoules
+	rm -f core `find . -name '*.[oas]' -print`
+	rm -f core `find . -name '*~' -print`
+	rm -f core `find . -type f -name 'core' -print`
+
+
+lint:
+	lint -Ixlib $(PROGS_C)  -D_INCLUDE_HPUX_SOURCE -D_INCLUDE_POSIX_SOURCE -Ixlib -D_INCLUDE_XOPEN_SOURCE 
+
+koules.o: koules.c koules.h
+
+menu.o: menu.c koules.h
+
+gameplan.o: gameplan.c koules.h
+
+font.o: font.c font.h koules.h
+
+intro.o: intro.c koules.h font.h text.h
+
+init.o: xlib/init.c xlib/../koules.h xlib/../framebuffer.h
+
+framebuffer.o: framebuffer.c koules.h
+
+cmap.o: cmap.c koules.h
+
+koules.h:xlib/interface.h xlib/input.h

@@ -1,0 +1,27 @@
+Compiling Koules/2 on OS/2.
+---------------------------
+
+The source MUST be unpacked on a HPFS drive, some of us are tired of the old
+8+3 format :-)
+
+To compile koules/2 you'll need:
+ 
+-  emx/gcc (version 09a + fix06 used in development)
+-  mm4emx10 the MultiMedia extension for emx/gcc
+-  GNU make for OS/2
+-  DIVE.LIB the link stub from Warp toolkit.
+
+Installation of sources:
+
+Copy vga.h & vgagl.h to your emx include directory, usually something like
+x:\emx\include, where x is the drive you've installed emx/gcc.
+
+Copy vga.lib & vgagl.lib to your emx lib directory, usually something like
+x:\emx\lib, where x is the drive you've installed emx/gcc.
+
+Make sure you've installed mm4emx and it's working.
+Make sure the include directory for the Warp toolkit is in to your emx include
+path.
+
+
+Type make -f makefile.os2

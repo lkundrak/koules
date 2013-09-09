@@ -1,0 +1,41 @@
+In order to install Koules 1.2 you must do the following:
+(If you encounter any problems read `Problems' and `Koules.FAQ')
+
+For X11:
+========
+
+Edit the Iconfig for your computer and type:
+	xmkmf -a (or xmkmf ; make Makefiles if your xmkmf don´t support it)
+	make
+	make install
+
+	On certain systems there should be problems with compiling net
+	support. If you don´t need it you might remove it from Iconfig
+	file and repeat process in case of troubles
+
+For SVGAlib:
+============
+
+You MUST be 'root' to install the game.
+Edit the Makefile.svgalib for your computer and type:
+	make -f Makefile.svgalib
+	make -f Makefile.svgalib install
+
+For HP-UX wo imake:
+===================
+
+Edit the Makefile.hpux for your computer and type:
+	make -f Makefile.hpux
+	make -f Makefile.hpux install
+
+For OS/2:
+=========
+
+Who cares :) 
+
+Widows 95*:
+============ 
+
+Heavens no Koules ...
+
+*Widows 95 is a shitmark of Macro$oft

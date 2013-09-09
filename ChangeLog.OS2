@@ -1,0 +1,41 @@
+HISTORY - Koules/2 for OS/2 Warp + DIVE
+
+BETA 1  Internal version - really did some amazing crashes, e.g. really screwed
+                           up my desktop colors. :-)
+
+BETA 2  Feb.12 - 1996
+- Fisrt public release.
+
+BETA 2.1 Feb.14 - 1996
+- Fixed a bug with 256 colors and FSDive.
+- Removed F1 & F3 shortcuts from the Options menu, as these will crash
+  OS/2 when running Full-Screen.
+- Added define for version in Makefile.
+- WaitRetrace() defined as vga_waitretrace() didn't notice any differences.
+
+BETA 3   Feb 15 - 1996
+- First attempt for sound support with MMPM/2
+
+BETA 3.1 Feb 16 - 1996
+- Fixed sound, so it seems stable :-)
+- Re-arranged the toplevel menus + submenus
+- The chances that you'll end up with garbage on the screen when killig
+  Koules, is now much lesser than before.
+- Refixed the FSDive problem on 256 colors display.
+- Cheated a little with the screen buffers - now the game actually is
+  playable in 640x480 mode.. :-)
+- Now you can quit the game, when in FSDive mode.
+
+BETA 3.2 Feb 23 - 1996
+- Tried another fix for avoiding garbage after quit'ing the game.
+- Even more PM code has been moved into DVGALib.
+- Discovered the problem with the latest beta of DIVE.DLL.
+- Full mouse support, even when window is resized and in FSDive mode.
+- Rename the .exe back to koules.exe
+
+BETA 3.3
+- Fixed the 256 colors code. (I hope)
+
+BETA 3.4
+- Changed the sound code a little.
+- Now Koules/2 uses the .RAW files, instead of converted .WAV

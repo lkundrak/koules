@@ -1,0 +1,185 @@
+#XCOMM ***********************************************************
+#XCOMM ---> Configuration options was moved indo Iconfig     <----
+#XCOMM ***********************************************************
+#include "Iconfig"
+
+#ifdef I386ASSEMBLY
+ASMDEF = -DASSEMBLY
+#endif
+
+SUBDIRS=xlib util
+#define IHaveSubdirs
+
+#ifdef NETWORK
+NET = -DNETSUPPORT
+#endif
+#ifdef JOYSTICK
+JOYSTICK1 = -DJOYSTICK
+#endif
+#ifdef MITSHM
+MITSHM1 = -DMITSHM
+#endif
+#ifdef HAVEUSLEEP
+HAVEUSLEEP1 = -DHAVEUSLEEP
+#endif
+
+
+#ifndef SOUND
+#ifndef NAS_SOUND
+#ifndef RSOUND
+DEFINES = -DONLYANSI $(JOYSTICK1) $(NET) $(MITSHM1) $(HAVEUSLEEP1) $(SYSDEFS) $(JOYSTICK) -Ixlib\
+	$(NAMEDEF) $(ASMDEF)
+#else
+INSTALLSOUND = True
+
+NASLIB = -L/usr/local/lib/rplay -lrplay
+
+SOUNDOBJS = rsound.o
+
+DEFINES = -DONLYANSI -DRSOUND $(JOYSTICK1) $(NET) $(MITSHM1) $(HAVEUSLEEP1) $(SYSDEFS) $(JOYSTICK) -Ixlib\
+	$(NAMEDEF) $(ASMDEF)\
+	-DSOUNDDIR=\"$(SOUNDDIR)\" 
+#endif
+#else
+INSTALLSOUND = True
+
+NASLIB = -laudio
+
+SOUNDOBJS = nas_sound.o
+
+DEFINES = -DONLYANSI -DNAS_SOUND $(JOYSTICK1) $(NET) $(MITSHM1) $(HAVEUSLEEP1) $(SYSDEFS) $(JOYSTICK) -Ixlib\
+	$(NAMEDEF) $(ASMDEF)\
+	-DSOUNDDIR=\"$(SOUNDDIR)\" 
+#endif 
+#else
+INSTALLSOUND = True
+
+DEFINES = -DONLYANSI -DSOUND $(JOYSTICK1) $(NET) $(MITSHM1) $(HAVEUSLEEP1) $(SYSDEFS) $(JOYSTICK) -Ixlib\
+	$(NAMEDEF) $(ASMDEF)\
+	-DSOUNDSERVER=\"$(SOUNDDIR)/$(SOUNDSERVER)\" \
+	-DSOUNDDIR=\"$(SOUNDDIR)\" \
+	-DSOUNDDEV=\"$(SOUNDDEV)\"
+#endif
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+
+
+OBJS = koules.o menu.o gameplan.o font.o intro.o  rcfiles.o \
+       framebuffer.o cmap-x11.o sound.o nas_sound.o rsound.o client.o server.o sock.o objectsio.o mygetopt.o
+
+SRCS = koules.c menu.c gameplan.c font.c intro.c rcfiles.c\
+       framebuffer.c cmap-x11.c sound.c nas_sound.c rsound.c client.c server.c sock.c objectsio.c mygetopt.c
+
+
+LOCAL_LIBRARIES = util/libutils.a xlib/libxlib.a $(NASLIB) $(XLIB) $(EXTRALIB)  -lm 
+DEPLIBS= util/libutils.a xlib/libxlib.a $(DEPXLIB)
+ 
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+#ifdef SOUND
+all::xkoules $(SOUNDSERVER)
+#else
+all::xkoules
+#endif
+
+BINDIR = $(KOULESDIR)
+DESTDIR = /
+
+ComplexProgramTarget(xkoules)
+
+
+#ifdef SOUND
+NormalProgramTarget($(SOUNDSERVER), $(SOUNDSERVER).o,,,)
+#endif
+#ifdef NAS_SOUND
+install:: $(PROGRAMS) $(SOUNDSERVER)
+	@echo "Koules directory is " $(KOULESDIR)
+	@:
+	@echo "Instalin man page to " $(MANDIR)
+	@mkdirhier $(MANDIR)
+	$(INSTALL) -c $(INSTBINFLAGS) xkoules.6 $(MANDIR);
+	@:
+	@echo "Creating directory " $(KOULESDIR)
+	@if [ ! -d $(KOULESDIR) ]; then mkdirhier $(KOULESDIR); fi
+	@:
+	@if [ "$(INSTALLSOUND)" = "True" ]; 				\
+	 then								\
+		echo "Creating directory " $(SOUNDDIR); 		\
+		if [ ! -d $(SOUNDDIR) ]; then mkdirhier $(SOUNDDIR); fi;    \
+		echo "Copying sound server to directory " $(SOUNDDIR); \
+		$(INSTALL) -c -s $(INSTBINFLAGS) $(SOUNDSERVER) $(SOUNDDIR); \
+		echo "Copying sound files into directory " $(SOUNDDIR); \
+		cd ./sounds; set -x;					\
+		for file in *.raw; do                                   \
+		    auconvert -raw linu8 1 -rate 8000 -volume 40 $$file -file snd `basename $$file .raw`.au ; \
+		    $(INSTALL) -c $(INSTDATFLAGS) `basename $$file .raw`.au $(SOUNDDIR); \
+		done;                                                   \
+	 fi
+	@echo
+	@echo Do not forget send filled Card to author
+	@echo
+#else
+#ifdef RSOUND
+install:: $(PROGRAMS) $(SOUNDSERVER)
+	@echo "Koules directory is " $(KOULESDIR)
+	@:
+	@echo "Instalin man page to " $(MANDIR)
+	@mkdirhier $(MANDIR)
+	$(INSTALL) -c $(INSTBINFLAGS) xkoules.6 $(MANDIR);
+	@:
+	@echo "Creating directory " $(KOULESDIR)
+	@if [ ! -d $(KOULESDIR) ]; then mkdirhier $(KOULESDIR); fi
+	@:
+	@if [ "$(INSTALLSOUND)" = "True" ]; 				\
+	 then								\
+		echo "Creating directory " $(SOUNDDIR); 		\
+		if [ ! -d $(SOUNDDIR) ]; then mkdirhier $(SOUNDDIR); fi;    \
+		echo "Copying sound server to directory " $(SOUNDDIR); \
+		$(INSTALL) -c -s $(INSTBINFLAGS) $(SOUNDSERVER) $(SOUNDDIR); \
+		echo "Copying sound files into directory " $(SOUNDDIR); \
+		cd ./sounds; set -x;					\
+		for file in *.raw; do                                   \
+		    sh ../myauconvert $$file `basename $$file .raw`.au ; \
+		    $(INSTALL) -c $(INSTDATFLAGS) `basename $$file .raw`.au $(SOUNDDIR); \
+		done;                                                   \
+	 fi
+	@echo
+	@echo
+	@echo
+	@echo
+	@echo Don't forget send filled Card to author
+	@echo
+#else
+install:: $(PROGRAMS) $(SOUNDSERVER)
+	@echo "Koules directory is " $(KOULESDIR)
+	@:
+	@echo "Instalin man page to " $(MANDIR)
+	@mkdirhier $(MANDIR)
+	$(INSTALL) -c $(INSTBINFLAGS) xkoules.6 $(MANDIR);
+	@:
+	@echo "Creating directory " $(KOULESDIR)
+	@if [ ! -d $(KOULESDIR) ]; then mkdirhier $(KOULESDIR); fi
+	@:
+	@if [ "$(INSTALLSOUND)" = "True" ]; 				\
+	 then								\
+		echo "Creating directory " $(SOUNDDIR); 		\
+		if [ ! -d $(SOUNDDIR) ]; then mkdirhier $(SOUNDDIR); fi;    \
+		echo "Copying sound server to directory " $(SOUNDDIR); \
+		$(INSTALL) -c -s $(INSTBINFLAGS) $(SOUNDSERVER) $(SOUNDDIR); \
+		echo "Copying sound files into directory " $(SOUNDDIR); \
+		cd ./sounds; set -x;					\
+		for file in *.raw; do					\
+		    $(INSTALL) -c $(INSTDATFLAGS) $$file $(SOUNDDIR);	\
+		done;   						\
+	 fi
+	@echo
+	@echo
+	@echo
+	@echo
+	@echo Dont forget send filled Card to author
+	@echo
+#endif
+#endif
+

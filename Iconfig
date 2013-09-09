@@ -1,0 +1,112 @@
+/*
+
+
+		RUN xmkmf -a; make clean AFTER CHANGING THIS FILE!
+
+
+*/
+/* comment folloving out if you want to disable network support
+   It is experimantal and may cause some problems..*/
+#define NETWORK
+/* comment following to disable mit shared memory support 
+   mitshm now works on all X servers with shared images
+   support with depth 8,16,24,32. Fastest is in 8bpp mode.
+   great speedup better intro etc..
+   mitshm support is now automatically diabled for aix*/
+#define MITSHM
+/* have usleep? Some unixes don't have this call...so we have to
+   use my emulation
+   If you are unsure try to leave it commented out. My emulation
+   works on most unixes*/
+/*#define HAVEUSLEEP*/
+/* for network audio server(supported by most unixes)*/
+/* It does not sound as well as built in driver ... koules uses too 
+   much sounds*/
+/*#define NAS_SOUND*/ /*comented=use own sounds server(linux,freebsd,sun,hpux,sgi)*/
+/* for rplay deamon(supported by most unixes)*/
+/* it is now in experimental ... also does not sounds very well*/
+/*#define RSOUND*/
+/* linux joystick support
+   Now compiles w/o joystick toolkit. For using joystick support is
+   joystick toolikit required...of course */
+/*#define JOYSTICK*/
+/*for fast 386 based assembler routines
+  recomended for linux*/
+/*#define I386ASSEMBLY*/
+/* directories*/
+KOULESDIR		=/usr/bin/X11
+SOUNDDIR		=/usr/local/lib/koules
+MANDIR			=/usr/local/man/man6
+
+/*You need some extra libraryes for BSD sockets compatibility?*/
+/* TOP_INCLUDES =                       /* Sun users with GCC need this */
+/* EXTRALIB = -ldnet_stub               /* DEC/OSF1 DECnet library required */
+/* EXTRALIB = -lsocket -lnsl            /* Solaris needs these */
+/* EXTRALIB =                           /* normal */
+
+
+
+DEPLIBS = $(DEPXLIB) 
+INCLUDES = -Ixlib
+SUBDIRS = xlib
+
+#if defined(LinuxArchitecture)
+    SYSDEFS = -Wall -fomit-frame-pointer -O6  -ffast-math
+#if !defined(NAS_SOUND)&&!defined(RSOUND)
+#define SOUND
+    SOUNDSERVER = koules.sndsrv.linux
+    SOUNDOBJS = sound.o
+    SOUNDDEV = /dev/dsp
+#endif
+#endif
+
+
+#if defined(HPArchitecture)
+    SYSDEFS = +O3 -Ae 
+#if !defined(NAS_SOUND)&&!defined(RSOUND)
+#define SOUND
+    SOUNDSERVER = koules.sndsrv.hp
+    SOUNDOBJS = sound.o
+    SOUNDDEV = /dev/audio
+#endif
+#endif
+
+
+#if defined(SGIArchitecture)
+SYSDEFS =
+#if !defined(NAS_SOUND)&&!defined(RSOUND)
+#define SOUND
+SOUNDSERVER = koules.sndsrv.sgi
+SOUNDOBJS = sound.o
+EXTRA_LOAD_FLAGS = -laudio
+#endif
+#endif
+
+#if defined(SunArchitecture)
+    SYSDEFS =
+#if !defined(NAS_SOUND)&&!defined(RSOUND)
+#define SOUND
+    SOUNDSERVER = koules.sndsrv.sun
+    SOUNDOBJS = sound.o
+    SOUNDDEV = /dev/audio
+#endif
+#endif
+
+#if defined(FreeBSDArchitecture)
+SYSDEFS = 
+#if !defined(NAS_SOUND)&&!defined(RSOUND)
+#define SOUND
+SOUNDSERVER = koules.sndsrv.freebsd
+SOUNDOBJS = sound.o
+SOUNDDEV = /dev/dsp
+#endif
+#endif
+
+#if defined(AIXArchitecture)
+    SYSDEFS =
+    SOUNDSERVER =
+    SOUNDOBJS =
+#undef MITSHM
+/*aix doesnt support mitshm*/
+#endif
+
