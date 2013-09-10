@@ -187,6 +187,9 @@ putmaskcompiledclip (CONST int nx, CONST int ny, CONST int nw, CONST int nh, CON
 void
 ShmPutBitmap (int x, int y, int w, int h, void *_dp)
 {
+  if (x < 0 || y < 0)
+    return;
+
 /* no clipping */
   uchar          *dp = _dp;
   uchar          *vp, *vpline;
