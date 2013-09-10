@@ -188,7 +188,7 @@ do_everything (int dsp, int is_pcsp)
   int             playnum = 0;	/* Number of sounds currently being played               */
   unsigned char   final[512];	/* Final Mixing Buffer                                   */
   int             premix[512];
-  char           *sample;
+  signed char     *sample;
   audio_buf_info  info;
 
   for (;;)
