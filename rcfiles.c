@@ -25,10 +25,14 @@
 #ifdef XSUPPORT
 static CONST char *name = ".xkoules-controls";
 #else
+#ifdef SDLSUPPORT
+static CONST char *name = ".koules.sdl-controls";
+#else
 #ifdef OS2DIVE
 static CONST char *name = "koules.cfg";
 #else
 static CONST char *name = ".koules.svga-controls";
+#endif
 #endif
 #endif
 

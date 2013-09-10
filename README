@@ -34,18 +34,19 @@
         .           *    Programming   by  Jan  Hubicka
 	                Joystick support by Ludvik Tesar
              .         HP-UX    sound    by  Lutz  Vieweg                 
-                      OS/2 version  by Thomas  A. K. Kjaer         .
-      *              Story by  Kamil Toman and Jan  Hubicka
- *                  Script by Kamil  Toman  and  Jan Hubicka            .
-                   English  Spelling checked by  Thomas Marsh
-                  SGI sound and  creator effect  by Rick Sayre         .
+                      OS/2 version  by Thomas  A. K. Kjaer       .
+          .          SDL   version    by   Lubomir   Rintel        *
+      *             Story by  Kamil Toman  and  Jan  Hubicka
+ *                 Script  by  Kamil  Toman  and  Jan Hubicka          .
+                  English  Spelling  checked  by  Thomas Marsh
+                 SGI  sound  and  creator effect  by Rick Sayre       .
 	         Sound servers  by Joe  Rumsey  and S. M. Patel
 	        /                                              \
       .        /                  INTRODUCTION:                 \
               /                  ---------------                 \
     *        Koules is a fast action arcade-style game for UNIX and
             OS/2. This version supports X window system, SVGAlib for
-	   Linux  and  OS/2. It works  in  fine  resolution.  (up  to
+	   Linux, SDL and OS/2. It works in fine resolution.  (up  to
 	  900x620) with cool 256 color graphics,  multi-player mode up
 	 to 5 players,  full  sound  and, of  course, network  support.
         Koules  is an original  idea. The  first  version of Koules  was
@@ -82,6 +83,14 @@ You MUST be 'root' to install the game.
 Edit the Makefile.svgalib for your computer and type:
         make -f Makefile.svgalib
         make -f Makefile.svgalib install
+
+For SDL:
+========
+
+You MUST be 'root' to install the game.
+Edit the Makefile.sdl for your computer and type:
+        make -f Makefile.sdl
+        make -f Makefile.sdl install
 
 For HP-UX wo imake:
 ===================
@@ -468,6 +477,10 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 There is bug in my svgalib.1.2.8 and earlier:
 switch to another console, switch back and press enter it will crash your
 computer.It is not koules bug!!! Test it on svgalib/demos/keytest!
+
+SDL_gfx prior to 2.0.24 draws thick lines inaccurately resulting in
+ugly artifacts in star wars screen. Make sure your SDL_gfx is recent enough
+when running the SDL version.
 
 Koules from the top:
 
