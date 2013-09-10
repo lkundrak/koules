@@ -95,7 +95,6 @@ extern Bool     XShmQueryVersion (Display* dpy, int * major, int * minor,
                                   Bool * sharedpixmaps);
 static int      haderror;
 static int      (*origerrorhandler) (Display *, XErrorEvent *);
-static int      bpp;
 
 
 static int
@@ -179,14 +178,14 @@ GetImage (VScreenType * pixmap)	/*Work as in shared memory mose but use
   VfTime = 1000000 / 25 * 12;
   pixmap->ximage = XCreateImage (dp, DefaultVisual (dp, screen),
 				 depth, ZPixmap, 0,
-				 NULL, Width, Height, bpp * 8, 0);
+				 NULL, Width, Height, depth, 0);
   if (!pixmap->ximage)
     {
       fprintf (stderr, "Can't get image\n");
       return 0;
     }
   /*Calculate size of shared memory */
-  memsize = ((Width + 1) * (Height + 1) * bpp);
+  memsize = ((Width + 1) * (Height + 1) * depth / 8);
   if ((data = malloc (memsize)) == NULL)
     {
       printf ("Can't malloc memory for image\n");
@@ -340,7 +339,6 @@ initialize (char **argv, int argc)
   char           *title1 = "Koules";
 
   Font            f;
-  XVisualInfo     vinfo_return;
   XGCValues       values;
 #ifndef NAS_SOUND
 #ifndef RSOUND
@@ -391,54 +389,46 @@ initialize (char **argv, int argc)
      XSynchronize (dp, 1);
   XSetCloseDownMode (dp, DestroyAll);
   screen = DefaultScreen (dp);
-  fadeenable = 1;
-  if (XMatchVisualInfo (dp, DefaultScreen (dp),
-			8, PseudoColor, &vinfo_return) == False)
-    {
-      fadeenable = 0;
-      printf ("X: Screen doesn't support PseudoColor!\n");
-      if (XMatchVisualInfo (dp, DefaultScreen (dp),
-			    32, TrueColor, &vinfo_return) == True)
-	{
-	  useprivate = 0;
-	  bpp = 4;
-	}
-      else if (XMatchVisualInfo (dp, DefaultScreen (dp),
-				 24, TrueColor, &vinfo_return) == True)
-	{
-	  useprivate = 0;
-	  bpp = 4;
-	}
-      else if (XMatchVisualInfo (dp, DefaultScreen (dp),
-				 16, TrueColor, &vinfo_return) == True)
-	{
-	  useprivate = 0;
-	  bpp = 2;
-	}
-      else if (XMatchVisualInfo (dp, DefaultScreen (dp),
-				 15, TrueColor, &vinfo_return) == True)
-	{
-	  useprivate = 0;
-	  bpp = 2;
-	}
-      else if (XMatchVisualInfo (dp, DefaultScreen (dp),
-				 8, GrayScale, &vinfo_return) == True)
-	{
-	  useprivate = 0;
-	  monochrome = 1;
-	  bpp = 2;
-	}
-      else
-	{
-	  printf ("Unsupported visual! Using slow and reliable mode\n");
+  {
+    XVisualInfo template;
+    XVisualInfo * vinfo;
+    int nitems_return;
+    template.visualid = XVisualIDFromVisual (DefaultVisual (dp, DefaultScreen (dp)));
+    vinfo = XGetVisualInfo (dp, VisualIDMask, &template, &nitems_return);
+    if (nitems_return == 0)
+      {
+        printf ("X server does not know about the default visual...");
+        exit (0);
+      }
+
+    if (vinfo->class == PseudoColor && vinfo->depth == 8)
+      {
+        fadeenable = 1;
+      }
+    else
+      {
+        fadeenable = 0;
+        printf ("X: Screen doesn't support PseudoColor!\n");
+        if (vinfo->class == TrueColor)
+          {
+            useprivate = 0;
+          }
+        else if (vinfo->class == GrayScale)
+          {
+            useprivate = 0;
+            monochrome = 1;
+          }
+        else
+          {
+            printf ("Unsupported visual! Using slow and reliable mode\n");
 #ifdef MITSHM
-	  shm = 0;
+            shm = 0;
 #endif
-	}
-    }
-  else
-    bpp = 1;
-  depth = vinfo_return.depth;
+          }
+      }
+    depth = vinfo->depth;
+    XFree(vinfo);
+  }
 #ifdef MITSHM
   /* Make sure all is destroyed if killed off */
 
