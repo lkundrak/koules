@@ -159,8 +159,10 @@ control_change ()
     return;
 #endif
 #endif
+#ifdef MOUSE
 #ifdef NETSUPPORT
   if(client && !control[mouseplayer]) mouseplayer=-1;
+#endif
 #endif
 
    if (rotation[player]==1)
