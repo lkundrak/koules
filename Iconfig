@@ -18,7 +18,7 @@
    use my emulation
    If you are unsure try to leave it commented out. My emulation
    works on most unixes*/
-/*#define HAVEUSLEEP*/
+#define HAVEUSLEEP
 /* for network audio server(supported by most unixes)*/
 /* It does not sound as well as built in driver ... koules uses too 
    much sounds*/
@@ -29,14 +29,14 @@
 /* linux joystick support
    Now compiles w/o joystick toolkit. For using joystick support is
    joystick toolikit required...of course */
-/*#define JOYSTICK*/
+#define JOYSTICK
 /*for fast 386 based assembler routines
   recomended for linux*/
-/*#define I386ASSEMBLY*/
+#define I386ASSEMBLY
 /* directories*/
-KOULESDIR		=/usr/bin/X11
-SOUNDDIR		=/usr/local/lib/koules
-MANDIR			=/usr/local/man/man6
+KOULESDIR		=/usr/games
+SOUNDDIR		=/usr/games/lib/koules
+MANDIR			=/usr/man/man6
 
 /*You need some extra libraryes for BSD sockets compatibility?*/
 /* TOP_INCLUDES =                       /* Sun users with GCC need this */
@@ -61,7 +61,7 @@ SUBDIRS = xlib
 #endif
 
 
-#if defined(HPArchitecture)
+#if defined(HPArchitecture) && !defined(LinuxArchitecture)
     SYSDEFS = +O3 -Ae 
 #if !defined(NAS_SOUND)&&!defined(RSOUND)
 #define SOUND

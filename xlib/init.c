@@ -770,6 +770,32 @@ main (int argc, char **argv)
 #endif
 	  break;
 	default:
+#ifdef NETSUPPORT
+#define USAGE_NETSUPPORT " -S run koules as network server\n \
+-C<host> run koules as network client\n \
+-P<port> select port. Default is:%i\n \
+-W run server in width mode-support for 320x200 svgalib and OS/2 clients\n \
+-L<level> select level for server\n \
+-D<number> select dificulty for server:\n \
+    0: nightmare\n \
+    1: hard\n \
+    2: medium(default and recomended)\n \
+    3: easy\n \
+    4: very easy\n \
+-K run server in deathmatch mode\n "
+#else
+#define USAGE_NETSUPPORT ""
+#endif
+#ifdef SOUND
+#define USAGE_SOUND " -d Disable sound support\n"
+#else
+#define USAGE_SOUND ""
+#endif
+#ifdef MITSHM
+#define USAGE_MITSHM " -M DISABLE shared memory support\n"
+#else
+#define USAGE_MITSHM ""
+#endif
 	  printf ("USAGE:"
 		  " -h for help\n"
 		  " -b for blackandwhite displays\n"
@@ -779,27 +805,10 @@ main (int argc, char **argv)
 		  " -p use private colormap\n"
 		  " -y Synchronize with X(for debugging)\n"
 		  " -f nofade(for debugging)\n"
-#ifdef SOUND
-		  " -d Disable sound support\n"
-#endif
+		  USAGE_SOUND
 		  " -x Disable X11 pointer\n"
-#ifdef MITSHM
-		  " -M DISABLE shared memory support\n"
-#endif
-#ifdef NETSUPPORT
-		  " -S run koules as network server\n"
-		  " -C<host> run koules as network client\n"
-		  " -P<port> select port. Default is:%i\n"
-		  " -W run server in width mode-support for 320x200 svgalib and OS/2 clients\n"
-		  " -L<level> select level for server\n"
-		  " -D<number> select dificulty for server:\n"
-		  "     0: nightmare\n"
-		  "     1: hard\n"
-		  "     2: medium(default and recomended)\n"
-		  "     3: easy\n"
-		  "     4: very easy\n"
-		  " -K run server in deathmatch mode\n", DEFAULTINITPORT
-#endif
+		  USAGE_MITSHM
+		  USAGE_NETSUPPORT, DEFAULTINITPORT
 	    );
 	  exit (2);
 	}
