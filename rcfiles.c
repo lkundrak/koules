@@ -20,6 +20,7 @@
 /* Changes for joystick "accelerate by deflection"         *
  *  (c) 1997 by Ludvik Tesar (Ludv\'{\i}k Tesa\v{r})       *
  ************************LT*********************************/
+#include <errno.h>
 #include "koules.h"
 #ifdef XSUPPORT
 static CONST char *name = ".xkoules-controls";

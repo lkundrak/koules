@@ -4,6 +4,7 @@
 
 #ifdef MITSHM
 #include <stdlib.h>
+#include <string.h>
 #include "inlstring.h"		/* include inline string operations */
 #include "interface.h"
 

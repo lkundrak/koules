@@ -14,6 +14,7 @@
 *----------------------------------------------------------*
 *  interface.c interface xlib graphics functions           *
 ***********************************************************/
+#include <stdint.h>
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 #include <X11/keysymdef.h>
@@ -154,7 +155,7 @@ CopyToScreen (CONST VScreenType source)
 	  {
 	    register unsigned char *data = (unsigned char *) source.vbuff,
 	                   *end = (unsigned char *) source.vbuff + MAPWIDTH * (MAPHEIGHT + 20);
-	    register unsigned long *out = (unsigned long *) source.ximage->data;
+	    register uint32_t *out = (uint32_t *) source.ximage->data;
 	    while (data < end)
 	      {
 		*out = rpixels[*data];

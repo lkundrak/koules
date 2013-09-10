@@ -181,7 +181,7 @@ read_sound (int k)
 void
 do_everything (int dsp, int is_pcsp)
 {
-  char            k;
+  signed char     k;
   int             i, j;
   int             terminate = -1;	/* Which Sound to Terminate                              */
   int             playing[16];	/* Sound numbers that we are playing                     */

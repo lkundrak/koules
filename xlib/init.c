@@ -30,6 +30,7 @@
 #include "../framebuffer.h"
 
 #include <sys/time.h>
+#include <time.h>
 #include <unistd.h>
 #include "../mygetopt.h"
 #include <sys/signal.h>
