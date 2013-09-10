@@ -44,7 +44,6 @@ int flipping=0,page=0;
 #include <sys/stat.h>
 #include <sys/vt.h>
 #include <unistd.h>
-#include <asm/io.h>		/*for waiting for retrace */
 #include <sys/ioctl.h>		/*for waiting for retrace */
 extern void     fadein1 ();
 extern GraphicsContext *starbackground;
