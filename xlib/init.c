@@ -386,6 +386,9 @@ initialize (char **argv, int argc)
       printf ("could not open display\n");
       exit (0);
     }
+
+  if (Sync)
+     XSynchronize (dp, 1);
   XSetCloseDownMode (dp, DestroyAll);
   screen = DefaultScreen (dp);
   fadeenable = 1;
@@ -578,8 +581,6 @@ initialize (char **argv, int argc)
     }
 #endif
 
-  if (Sync)
-    XSynchronize (dp, 1);
 #if defined(NAS_SOUND)||defined(RSOUND)
   printf ("Initializing sound server...\n");
   if (sndinit)
@@ -666,7 +667,7 @@ main (int argc, char **argv)
 	  "\n\n\n\n"
 	  "                     Copyright(c) Jan Hubicka 1995, 1996\n\n\n");
   useprivate = 0;
-  while ((c = mygetopt (argc, argv, "KWD:P:L:C:SxslEMmpdhfb")) != -1)
+  while ((c = mygetopt (argc, argv, "KWD:P:L:C:SxyslEMmpdhfb")) != -1)
     {
       switch (c)
 	{
