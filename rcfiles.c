@@ -52,8 +52,10 @@ void
 save_rc ()
 {
   FILE           *controls, *levels;
+#if !defined(MOUSE) || !defined(JOYSTICK)
   int             zeros[] =
   {0, 0, 0, 0, 0, 0, 0, 0};
+#endif /* !defined(MOUSE) || !defined(JOYSTICK) */
   char            fullname[256];
 #ifdef NETSUPPORT
   if (client || server)
@@ -126,7 +128,9 @@ void
 load_rc ()
 {
   FILE           *controls, *levels;
+#if !defined(MOUSE) || !defined(JOYSTICK)
   int             dummy[8];
+#endif /* !defined(MOUSE) || !defined(JOYSTICK) */
   char            fullname[256];
 #ifdef NETSUPPORT
   if (client || server)
