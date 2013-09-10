@@ -242,13 +242,12 @@ static INLINE int
 muldiv64 (int CONST m1, int CONST m2, int CONST d)
 {
 /* int32 * int32 -> int64 / int32 -> int32 */
-  int             result;
+  int             result,dummy;
   __asm__ (
 	    "imull %%edx\n\t"
-	    "idivl %3\n\t"
-:	    "=a" (result)	/* out */
+	    "idivl %4\n\t"
+:	    "=a" (result), "=d" (dummy)	/* out */
 :	    "a" (m1), "d" (m2), "g" (d)		/* in */
-:	    "ax", "dx"		/* mod */
     );
   return result;
 }
