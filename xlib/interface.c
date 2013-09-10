@@ -201,6 +201,8 @@ CompileBitmap (CONST int x, CONST int y, CONST RawBitmapType bitmap)
       if ((cbitmap = malloc (size1)) == NULL)
 	perror ("create_bitmap"), exit (1);
       ShmCompileBitmap (x, y, bitmap.vbuff, cbitmap);
+      pm.bitmap = 0;
+      pm.mask = 0;
       pm.vbuff = (unsigned char *) cbitmap;
       free (bitmap.vbuff);
     }
@@ -208,6 +210,9 @@ CompileBitmap (CONST int x, CONST int y, CONST RawBitmapType bitmap)
 #endif
     {
       XFlush (dp);
+#ifdef MITSHM
+      pm.vbuff = NULL;
+#endif
       pm.bitmap = XCreatePixmap (dp, wi, x, y, DefaultDepth (dp, screen));
       XPutImage (dp, pm.bitmap, whitegc, bitmap.bitmap, 0, 0, 0, 0, x, y);
       pm.mask = XCreateBitmapFromData (dp, wi, bitmap.mask, x, y);
@@ -225,13 +230,18 @@ CreateBitmap (CONST int xv, CONST int yv)
 #ifdef MITSHM
   if (shm)
     {
+      img.mask =  NULL;
+      img.bitmap = NULL;
       img.xsize = xv;
       img.vbuff = malloc (xv * yv + 10);
-      return (img);
     }
   else
 #endif
     {
+#ifdef MITSHM
+      img.vbuff = NULL;
+      img.xsize = 0;
+#endif
       if ((data = (char *) calloc ((xv + BitmapPad (dp)) * yv * 4, 1)) == NULL)
 	perror ("Memory Error"), exit (2);
       img.bitmap = XCreateImage (dp, DefaultVisual (dp, screen), DefaultDepth (dp, screen),
