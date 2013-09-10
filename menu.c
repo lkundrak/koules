@@ -645,15 +645,15 @@ draw_menu (CONST int draw)
       DrawBlackMaskedText (MAPWIDTH / 2 - 10 * 4 + 1, 11, "K O U L E S");
       DrawBlackMaskedText (MAPWIDTH / 2 - 2 * 4 + 1, 21, "BY");
       DrawBlackMaskedText (MAPWIDTH / 2 - 8 * 4 + 1, 31, "JAHUSOFT");
-      DrawBlackMaskedText (MAPWIDTH / 2 - 30 * 4 + 1, 46, "PRESS P FOR PAUSE / H FOR HELP");
+      DrawBlackMaskedText (MAPWIDTH / 2 - 30 * 4 + 1, 56, "PRESS P FOR PAUSE / H FOR HELP");
 #ifdef __OS2__
-      DrawBlackMaskedText (MAPWIDTH / 2 - 28 * 4, 40, "OS/2 Warp VERSION BY T.A.K.K");
+      DrawBlackMaskedText (MAPWIDTH / 2 - 28 * 4, 41, "OS/2 Warp VERSION BY T.A.K.K");
 #endif
       DrawWhiteMaskedText (MAPWIDTH / 2 - 8 * 4, 0, "THE GAME");
       DrawWhiteMaskedText (MAPWIDTH / 2 - 10 * 4, 10, "K O U L E S");
       DrawWhiteMaskedText (MAPWIDTH / 2 - 2 * 4, 20, "BY");
       DrawWhiteMaskedText (MAPWIDTH / 2 - 8 * 4, 30, "JAHUSOFT");
-      DrawWhiteMaskedText (MAPWIDTH / 2 - 30 * 4, 45, "PRESS P FOR PAUSE / H FOR HELP");
+      DrawWhiteMaskedText (MAPWIDTH / 2 - 30 * 4, 55, "PRESS P FOR PAUSE / H FOR HELP");
 #ifdef __OS2__
       DrawWhiteMaskedText (MAPWIDTH / 2 - 28 * 4, 40, "OS/2 Warp VERSION BY T.A.K.K");
 #endif
