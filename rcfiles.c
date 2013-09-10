@@ -73,7 +73,7 @@ save_rc ()
   if ((controls = fopen (fullname, "w")) == NULL)
     {
       printf ("could not open save file:%s\n"
-	      "saving of controls skippen\n", fullname);
+	      "saving of controls skipped\n", fullname);
       perror ("error");
       return;
     }
@@ -109,7 +109,7 @@ save_rc ()
   if ((levels = fopen (fullname, "w")) == NULL)
     {
       printf ("could not open save file:%s\n"
-	      "saving of controls skippen\n", fullname);
+	      "saving of controls skipped\n", fullname);
       perror ("error");
       return;
     }

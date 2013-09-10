@@ -270,7 +270,7 @@ static char    *bballtext[] =
 {
   "The DARK APPLEPOLISHER",
   "has heard about you",
-  "Your are famous",
+  "You are famous",
   "This has one disadvantage",
   "B_BALLS are going to",
   "kick you out",
@@ -290,7 +290,7 @@ static char    *bbballtext[] =
   "...",
   "do not",
   "turn the power off",
-  "your are near",
+  "you are near",
   "your goal",
   "NOW you can finish the game"};
 static int      BBBALLSIZE = (sizeof (bbballtext) / sizeof (char *));
