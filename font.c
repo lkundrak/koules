@@ -32,6 +32,9 @@
 #include <string.h>
 #include "font.h"
 #include "koules.h"
+
+#define TABSIZE  64		/* size of a tab, in pixels */
+
 /*following routines are ripped from vgagl library */
 /* We use the 32-bit to 64-bit multiply and 64-bit to 32-bit divide of the */
 /* 386 (which gcc doesn't know well enough) to efficiently perform integer */
@@ -292,7 +295,6 @@ gl_wide_line (int x1, int y1, int x2, int y2, int c)
 
 
 
-#define TABSIZE  64		/* size of a tab, in pixels */
 #define vga_drawline(x1,y1,x2,y2)\
 	gl_wide_line(x1,y1,x2,y2,textcolor)
 #define vga_drawhline(x1,y1,x2,y2)\
@@ -406,7 +408,6 @@ SSetPixel (int x1, int y1, int c)
   lines[nlines].y2 = y1 + 1;
   nlines++;
 }
-#define TABSIZE  64		/* size of a tab, in pixels */
 #undef vga_drawline
 #undef vga_drawhline
 #undef vga_drawpixel
