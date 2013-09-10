@@ -65,10 +65,9 @@ init (int argc, char **argv)
   for (i = 0; i < NUM_SOUNDS; i++)
     {
       s[0] = 0;
-      strcat (s, argv[1]);
-      if (s[(int) strlen (s) - 1] == '/')
+      if (argv[1][(int) strlen (argv[1]) - 1] == '/')
 	FILENAME[i]++;
-      strcat (s, FILENAME[i]);
+      snprintf(s, sizeof(s), "%s%s", argv[1], FILENAME[i]);
       FILENAME[i] = malloc ((int) strlen (s) + 1);
       strcpy (FILENAME[i], s);
       sound_buffer[i] = NULL;

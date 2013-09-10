@@ -627,7 +627,8 @@ read_sound (int k)
     printf ("Opening no.%d %s\n", k, FILENAME[k]);
   
 #endif /*  */
-    sprintf (filename, "sounds/%s", FILENAME[k]);
+    snprintf (filename, sizeof (filename), "sounds/%s", FILENAME[k]);
+    filename [sizeof (filename)-1] = '\0';
   
     fd = open (filename, O_RDONLY);
   

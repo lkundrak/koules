@@ -59,11 +59,17 @@ save_rc ()
   if (client || server)
     return;
 #endif
+  fullname[sizeof (fullname)-1] = '\0';
 #ifdef OS2DIVE
-  sprintf (fullname, "%s", name);
+  snprintf (fullname, sizeof (fullname),  "%s", name);
 #else
-  sprintf (fullname, "%s/%s", mygetenv ("HOME"), name);
+  snprintf (fullname, sizeof (fullname), "%s/%s", mygetenv ("HOME"), name);
 #endif
+  if (fullname[sizeof (fullname)-1] != '\0')
+    {
+      printf ("Home directory file name too long, saving of controls skipped.");
+      return;
+    }
   if ((controls = fopen (fullname, "w")) == NULL)
     {
       printf ("could not open save file:%s\n"
@@ -89,11 +95,17 @@ save_rc ()
   fwrite (zeros, 2, sizeof (float), controls);
 #endif
   fclose (controls);
+  fullname[sizeof (fullname)-1] = '\0';
 #ifdef OS2DIVE
-  sprintf (fullname, "%s", levelsname);
+  snprintf (fullname, sizeof (fullname), "%s", levelsname);
 #else
-  sprintf (fullname, "%s/%s", mygetenv ("HOME"), levelsname);
+  snprintf (fullname, sizeof (fullname), "%s/%s", mygetenv ("HOME"), levelsname);
 #endif
+  if (fullname[sizeof (fullname)-1] != '\0')
+    {
+      printf ("Home directory file name too long, saving of controls skipped.");
+      return;
+    }
   if ((levels = fopen (fullname, "w")) == NULL)
     {
       printf ("could not open save file:%s\n"
@@ -120,11 +132,17 @@ load_rc ()
   if (client || server)
     return;
 #endif
+  fullname[sizeof (fullname)-1] = '\0';
 #ifdef OS2DIVE
-  sprintf (fullname, "%s", name);
+  snprintf (fullname, sizeof (fullname), "%s", name);
 #else
-  sprintf (fullname, "%s/%s", mygetenv ("HOME"), name);
+  snprintf (fullname, sizeof (fullname), "%s/%s", mygetenv ("HOME"), name);
 #endif
+  if (fullname[sizeof (fullname)-1] != '\0')
+    {
+      printf ("Home directory file name too long, using default controls.");
+      return;
+    }
   if ((controls = fopen (fullname, "r")) == NULL)
     {
       printf ("could not open save file:%s\n"
@@ -151,11 +169,17 @@ load_rc ()
 #endif
   fclose (controls);
 skip:;
+  fullname[sizeof (fullname)-1] = '\0';
 #ifdef OS2DIVE
-  sprintf (fullname, "%s", levelsname);
+  snprintf (fullname, sizeof (fullname), "%s", levelsname);
 #else
-  sprintf (fullname, "%s/%s", mygetenv ("HOME"), levelsname);
+  snprintf (fullname, sizeof (fullname), "%s/%s", mygetenv ("HOME"), levelsname);
 #endif
+  if (fullname[sizeof (fullname)-1] != '\0')
+    {
+      printf ("Home directory file name too long, using default controls.");
+      return;
+    }
   if ((levels = fopen (fullname, "r")) == NULL)
     {
       printf ("could not open save file:%s\n"

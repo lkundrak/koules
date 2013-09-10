@@ -175,9 +175,10 @@ playSoundFile (filename, volume)
 
       /* Use the environment variable if it exists */
       if ((str = getenv ("XGAL_SOUND_DIR")) != NULL)
-	sprintf (fbuf, "%s/%s", str, filename);
+	snprintf (fbuf, sizeof (fbuf), "%s/%s", str, filename);
       else
-	sprintf (fbuf, "%s/%s", unixSoundPath, filename);
+	snprintf (fbuf, sizeof (fbuf), "%s/%s", unixSoundPath, filename);
+	fbuf[sizeof (fbuf) -1] = '\0';
 
       sound_table[num_sounds].filename = strdup (fbuf);
       num_sounds++;
