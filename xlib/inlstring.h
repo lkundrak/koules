@@ -238,13 +238,12 @@ extern          __memcpyasm_regargs_aligned ();		/* nu_bytes >= 32 */
 static INLINE void *
 __memcpy_aligndest (void *dest, const void *src, int n)
 {
-  __asm__         __volatile__ ("
-				cmpl $3, %%ecx
-				ja 1f
-				call * __memcpy_jumptable (, %%ecx, 4)
-				jmp 2f
-				1:call __memcpyasm_regargs
-				"
+  __asm__         __volatile__ (
+				"cmpl $3, %%ecx\n\t"
+				"ja 1f\n\t"
+				"call * __memcpy_jumptable (, %%ecx, 4)\n\t"
+				"jmp 2f\n\t"
+				"1:call __memcpyasm_regargs\n\t"
 				:
 				:"b"            (dest), "d" (src), "c" (n)
 				:"ax", "0", "1", "2");
@@ -255,14 +254,13 @@ __memcpy_aligndest (void *dest, const void *src, int n)
 static INLINE void *
 __memcpy_destaligned (void *dest, const void *src, int n)
 {
-  __asm__         __volatile__ ("
-				cmpl $32, %%ecx
-				ja 1f
-				call * __memcpy_jumptable (, %%ecx, 4)
-				jmp 2f
-				1:call __memcpyasm_regargs_aligned
-				2:
-				"
+  __asm__         __volatile__ (
+				"cmpl $32, %%ecx\n\t"
+				"ja 1f\n\t"
+				"call * __memcpy_jumptable (, %%ecx, 4)\n\t"
+				"jmp 2f\n\t"
+				"1:call __memcpyasm_regargs_aligned\n\t"
+				"2:\n\t"
 				:
 				:"b"            (dest), "d" (src), "c" (n)
 				:"ax", "0", "1", "2");
@@ -273,14 +271,13 @@ __memcpy_destaligned (void *dest, const void *src, int n)
 static INLINE void *
 __memcpy_balanced (void *dest, const void *src, int n)
 {
-  __asm__         __volatile__ ("
-				cmpl $19, %%ecx
-				ja 1f
-				call * __memcpy_jumptable (, %%ecx, 4)
-				jmp 2f
-				1:call __memcpyasm_regargs
-				2:
-				"
+  __asm__         __volatile__ (
+				"cmpl $19, %%ecx\n\t"
+				"ja 1f\n\t"
+				"call * __memcpy_jumptable (, %%ecx, 4)\n\t"
+				"jmp 2f\n\t"
+				"1:call __memcpyasm_regargs\n\t"
+				"2:\n\t"
 				:
 	     :"b"            ((long) dest), "d" ((long) src), "c" ((long) n)
 				:"ax", "bx", "cx", "dx");
