@@ -545,8 +545,8 @@ initialize (char **argv, int argc)
 #ifdef MITSHM
   if (!shm)
     {
-#endif
     noshm:;
+#endif
       backscreen.pixmap = XCreatePixmap (dp, wi, MAPWIDTH, MAPHEIGHT + 20, DefaultDepth (dp, screen));
       background.pixmap = XCreatePixmap (dp, wi, MAPWIDTH, MAPHEIGHT + 20, DefaultDepth (dp, screen));
       starbackground.pixmap = XCreatePixmap (dp, wi, MAPWIDTH, MAPHEIGHT + 20, DefaultDepth (dp, screen));
