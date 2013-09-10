@@ -180,7 +180,9 @@ control_change ()
          mouseplayer = -1;
 #endif
 #ifdef JOYSTICK
+#ifdef MOUSE
 maybejoystick:;
+#endif
          if((joystickplayer[0] == -1)&&(joystickdevice[0]>=0))
             {
                joystickplayer[0]=player;
