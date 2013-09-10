@@ -91,6 +91,8 @@ create_icon ()
 
 #ifdef MITSHM
 extern int      XShmQueryExtension (Display * dpy);
+extern Bool     XShmQueryVersion (Display* dpy, int * major, int * minor,
+                                  Bool * sharedpixmaps);
 static int      haderror;
 static int      (*origerrorhandler) (Display *, XErrorEvent *);
 static int      bpp;
@@ -103,6 +105,15 @@ shmerrorhandler (Display * d, XErrorEvent * e)
   if (e->error_code == BadAccess)
     fprintf (stderr, "X: failed to attach shared memory\n");
   else
+    (*origerrorhandler) (d, e);
+  return (0);
+}
+
+static int
+badmatcherrorhandler (Display * d, XErrorEvent * e)
+{
+  haderror++;
+  if (e->error_code != BadMatch)
     (*origerrorhandler) (d, e);
   return (0);
 }
@@ -186,16 +197,27 @@ GetImage (VScreenType * pixmap)	/*Work as in shared memory mose but use
   fflush (stdout);
   testpixmap = XCreatePixmap (dp, wi, MAPWIDTH, MAPHEIGHT + 20, DefaultDepth (dp, screen));
   XSync (dp, 0);
+  haderror = False;
+  origerrorhandler = XSetErrorHandler (badmatcherrorhandler);
   for (i = 0; i < 10 && wait > 0; i++)
     {
-      XPutImage (dp, testpixmap, gc, pixmap->ximage, 0, 0, 0, 0, MAPWIDTH, MAPHEIGHT + 20);
+      if (!XPutImage (dp, testpixmap, gc, pixmap->ximage, 0, 0, 0, 0,
+                      MAPWIDTH, MAPHEIGHT + 20))
+        break;
       XSync (dp, 0);
       gettimeofday (&VnewClk, NULL);
       if (VnewClk.tv_usec < VendSleep)
 	VendSleep -= 1000000;
       wait = (VfTime - VnewClk.tv_usec + VendSleep);
     }
+  XSync (dp, False);
+  XSetErrorHandler (origerrorhandler);
   XFreePixmap (dp, testpixmap);
+  if (haderror)
+    {
+      printf (" XPutImage failed (remote server?)\n");
+      return 0;
+    }
   if (i == 10)
     {
       printf ("OK\n");
@@ -258,6 +280,7 @@ GetShmPixmap (VScreenType * pixmap)
   pixmap->ximage->data = (char *) shared_mem;
 
   /* Now try to attach it to the X Server */
+  XSync (dp, False);
   haderror = False;
   origerrorhandler = XSetErrorHandler (shmerrorhandler);
   if (!XShmAttach (dp, &shminfo))
@@ -416,22 +439,25 @@ initialize (char **argv, int argc)
 #ifdef MITSHM
   /* Make sure all is destroyed if killed off */
 
-  /* Make sure we can do PsuedoColor colormap stuff */
+  /* Make sure we can do PseudoColor colormap stuff */
   if (!shm)
     {
       printf ("Shm support disabled\n");
     }
   else
-    /* Check to see if the extensions are supported */
-  if (!XShmQueryExtension (dp))
     {
-      fprintf (stderr, "X server doesn't support MITSHM extension.\n");
-      shm = 0;
+      /* Check to see if the extensions are supported */
+      int major, minor;
+      Bool pixmaps;
+      if (XShmQueryVersion (dp, &major, &minor, &pixmaps) != 0
+           && (major > 1 || (major == 1 && minor >= 1)))
+          printf ("Shm mode seems to be possible\n");
+      else
+        {
+          fprintf (stderr, "X server doesn't support MITSHM extension.\n");
+          shm = 0;
+        }
     }
-  if (shm)
-    printf ("Shm mode seems to be possible\n");
-
-
 #endif
   wi = physicalscreen.pixmap = XCreateSimpleWindow (dp, RootWindow (dp, screen), 50, 50, MAPWIDTH, MAPHEIGHT + 20,
 						    0, 0, 0);
