@@ -21,6 +21,14 @@ Edit the Makefile.svgalib for your computer and type:
 	make -f Makefile.svgalib
 	make -f Makefile.svgalib install
 
+For SDL:
+========
+
+You MUST be 'root' to install the game.
+Edit the Makefile.sdl for your computer and type:
+	make -f Makefile.sdl
+	make -f Makefile.sdl install
+
 For HP-UX wo imake:
 ===================
 

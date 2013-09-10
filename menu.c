@@ -651,6 +651,9 @@ draw_menu (CONST int draw)
 #ifdef __OS2__
       DrawBlackMaskedText (MAPWIDTH / 2 - 28 * 4, 41, "OS/2 Warp VERSION BY T.A.K.K");
 #endif
+#ifdef SDLSUPPORT
+      DrawBlackMaskedText (MAPWIDTH / 2 - 20 * 4, 41, "SDL Version by Lubko");
+#endif
       DrawWhiteMaskedText (MAPWIDTH / 2 - 8 * 4, 0, "THE GAME");
       DrawWhiteMaskedText (MAPWIDTH / 2 - 10 * 4, 10, "K O U L E S");
       DrawWhiteMaskedText (MAPWIDTH / 2 - 2 * 4, 20, "BY");
@@ -658,6 +661,9 @@ draw_menu (CONST int draw)
       DrawWhiteMaskedText (MAPWIDTH / 2 - 30 * 4, 55, "PRESS P FOR PAUSE / H FOR HELP");
 #ifdef __OS2__
       DrawWhiteMaskedText (MAPWIDTH / 2 - 28 * 4, 40, "OS/2 Warp VERSION BY T.A.K.K");
+#endif
+#ifdef SDLSUPPORT
+      DrawWhiteMaskedText (MAPWIDTH / 2 - 20 * 4, 40, "SDL Version by Lubko");
 #endif
       for (i = 0; i < nnumbers; i++)
 	{
