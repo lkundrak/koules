@@ -787,7 +787,6 @@ main (int argc, char **argv)
 #endif
 	  break;
 	default:
-#ifdef NETSUPPORT
 #define USAGE_NETSUPPORT " -S run koules as network server\n \
 -C<host> run koules as network client\n \
 -P<port> select port. Default is:%i\n \
@@ -800,9 +799,6 @@ main (int argc, char **argv)
     3: easy\n \
     4: very easy\n \
 -K run server in deathmatch mode\n "
-#else
-#define USAGE_NETSUPPORT ""
-#endif
 #ifdef SOUND
 #define USAGE_SOUND " -d Disable sound support\n"
 #else
@@ -825,7 +821,10 @@ main (int argc, char **argv)
 		  USAGE_SOUND
 		  " -x Disable X11 pointer\n"
 		  USAGE_MITSHM
-		  USAGE_NETSUPPORT, DEFAULTINITPORT
+#ifdef NETSUPPORT
+		  USAGE_NETSUPPORT,
+		  DEFAULTINITPORT
+#endif
 	    );
 	  exit (2);
 	}
