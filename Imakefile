@@ -87,7 +87,7 @@ all::xkoules
 BINDIR = $(KOULESDIR)
 DESTDIR = /
 
-ComplexProgramTarget(xkoules)
+ComplexProgramTargetNoMan(xkoules)
 
 
 #ifdef SOUND
