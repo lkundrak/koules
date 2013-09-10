@@ -391,7 +391,7 @@ createbackground ()
 #ifndef NODIRECT
 	    i += *(pixel - 1) - back (0);
 #else
-	    i += SGetPixel (x - 1, y);
+	    i += SGetPixel (x - 1, y) - back (0);
 #endif
 	    n++;
 	  }
@@ -400,7 +400,7 @@ createbackground ()
 #ifndef NODIRECT
 	    i += *(pixel - MAPWIDTH) - back (0);
 #else
-	    i += SGetPixel (x, y - 1);
+	    i += SGetPixel (x, y - 1) - back (0);
 #endif
 	    n++;
 	  }
