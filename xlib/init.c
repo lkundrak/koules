@@ -385,6 +385,12 @@ initialize (char **argv, int argc)
       exit (0);
     }
 
+  if (MAPWIDTH == 0)
+    {
+      GAMEWIDTH = MAPWIDTH = DisplayWidth (dp, DefaultScreen (dp)) * 0.8;
+      GAMEHEIGHT = MAPHEIGHT = DisplayHeight (dp, DefaultScreen (dp)) * 0.8;
+    }
+
   if (Sync)
      XSynchronize (dp, 1);
   XSetCloseDownMode (dp, DestroyAll);
@@ -640,10 +646,8 @@ main (int argc, char **argv)
   int             c;
   XEvent          event;
   nrockets = 1;
-  GAMEWIDTH = 640;
-  GAMEHEIGHT = 460;
-  MAPWIDTH = 640;
-  MAPHEIGHT = 460;
+  GAMEWIDTH = MAPWIDTH = 0;
+  GAMEHEIGHT = MAPHEIGHT = 0;
   DIV = 1;
 #ifdef MITSHM
   shm = 1;
@@ -833,6 +837,11 @@ main (int argc, char **argv)
 #ifdef NETSUPPORT
   if (server)
     {
+      if (MAPWIDTH == 0) {
+        GAMEWIDTH = MAPWIDTH = 640;
+        GAMEHEIGHT = MAPHEIGHT = 460;
+        DIV = 1;
+      }
       init_server ();
       server_loop ();
     }
