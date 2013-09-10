@@ -138,7 +138,7 @@ putmaskcompiledclip (CONST int nx, CONST int ny, CONST int nw, CONST int nh, CON
 	  x += count;
 	  count = *dp++;
 	  /* __memcpy gives severe bug here */
-	  if (y >= ny)
+	  if (y >= ny) {
 	    if (x >= nx)
 	      if (x + count > __clipx2 + 1)
 		{
@@ -147,7 +147,7 @@ putmaskcompiledclip (CONST int nx, CONST int ny, CONST int nw, CONST int nh, CON
 		}
 	      else
 		__memcpyb (vp, dp, count);
-	    else if (x + count > __clipx1)
+	    else if (x + count > __clipx1) {
 	      if (x + count > __clipx2 + 1)
 		__memcpyb (vp + __clipx1 - x,
 			   dp + __clipx1 - x,
@@ -156,6 +156,8 @@ putmaskcompiledclip (CONST int nx, CONST int ny, CONST int nw, CONST int nh, CON
 		__memcpy (vp + __clipx1 - x,
 			  dp + __clipx1 - x,
 			  count - __clipx1 + x);
+            }
+          }
 	  x += count;
 	  vp += count;
 	  dp += count;
