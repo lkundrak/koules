@@ -24,13 +24,13 @@ SOUNDDEV = /dev/dsp
 INSTBINFLAGS=-m a=rxs,u=rwxs
 INSTALL = install
 
-SDL_gfx_CFLAGS = $(shell pkg-config --cflags SDL_gfx)
-SDL_gfx_LIBS = $(shell pkg-config --libs SDL_gfx)
+SDL2_gfx_CFLAGS = $(shell pkg-config --cflags sdl2)
+SDL2_gfx_LIBS = $(shell pkg-config --libs sdl2) -lSDL2_gfx
 
 CC	 = gcc
-OPTIMIZE = -fomit-frame-pointer -O3 -ffast-math -s -Dlinux -Wall
-OPTIMIZE1 = -fomit-frame-pointer -O6  -ffast-math -funroll-loops -finline-functions   -s -Dlinux -Wall
-CFLAGS	 = -Isdl -DHAVEUSLEEP $(DEFINES) $(SDL_gfx_CFLAGS) $(ARCH) $(JOYSTICK) -DSOUNDDIR="\"$(SOUNDDIR)\"" $(SOUND) $(MOUSE) $(NET)\
+OPTIMIZE = -fomit-frame-pointer -O3 -ffast-math -Dlinux -Wall
+OPTIMIZE1 = -fomit-frame-pointer -O6  -ffast-math -funroll-loops -finline-functions   -Dlinux -Wall
+CFLAGS	 = -g3 -Wall -Wno-error=array-bounds -Wno-error=unused-but-set-variable -Wno-error=unused-function -Isdl -DHAVEUSLEEP $(DEFINES) $(SDL2_gfx_CFLAGS) $(ARCH) $(JOYSTICK) -DSOUNDDIR="\"$(SOUNDDIR)\"" $(SOUND) $(MOUSE) $(NET)\
 	-DSOUNDSERVER=\"$(SOUNDDIR)/$(SOUNDSERVER)\" \
 	-DSOUNDDIR=\"$(SOUNDDIR)\" \
 	-DSOUNDDEV=\"$(SOUNDDEV)\" \
@@ -40,7 +40,7 @@ LFLAGS   =
 
 PROGS    = koules.sdl
 PROGS_O  = koules.o sound.o menu.o gameplan.o font.o intro.o sdl/init.o sdl/draw.o sdl/input.o framebuffer.o cmap.o rcfiles.o server.o client.o sock.o objectsio.o
-LIBS     = $(SDL_gfx_LIBS)
+LIBS     = $(SDL2_gfx_LIBS)
 
 
 all:	progs $(SOUNDSERVER)
@@ -111,7 +111,7 @@ indent:
 
 lint:
 	export LARCH_PATH=/usr/lib/lclint LCLIMPORTDIR=/usr/lib/lclint;\
-	lclint -weak $(SDL_gfx_CFLAGS) $(DEFINES) *.c sdl/*.c xlib/*.c 2>lint.out;\
+	lclint -weak $(SDL2_gfx_CFLAGS) $(DEFINES) *.c sdl/*.c xlib/*.c 2>lint.out;\
 	lclint -weak -Ixlib xlib/*.c 2>>lint.out
 
 dep:
@@ -120,6 +120,6 @@ dep:
 
 .depend:
 	echo '# Program dependencies' >.depend
-	gcc $(SDL_gfx_CFLAGS) $(DEFINES) -MM $(patsubst %.o,%.c,$(PROGS_O)) >>.depend
+	gcc $(SDL2_gfx_CFLAGS) $(DEFINES) -MM $(patsubst %.o,%.c,$(PROGS_O)) >>.depend
 
 include .depend
