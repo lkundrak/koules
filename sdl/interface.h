@@ -20,11 +20,13 @@
 #include <stdbool.h>
 #include <SDL.h>
 
-typedef SDL_Surface *BitmapType;
-typedef SDL_Surface *VScreenType;
-typedef SDL_Surface *RawBitmapType;
+typedef struct {
+	SDL_Surface *surface;
+	SDL_Renderer *renderer;
+} BitmapType, RawBitmapType, VScreenType;
 
 extern SDL_Surface *sdl_screen;
+extern SDL_Window *sdl_window;
 
 #define COLORS 256
 typedef struct

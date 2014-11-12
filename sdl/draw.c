@@ -19,7 +19,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#include <SDL_gfxPrimitives.h>
+#include <SDL2_gfxPrimitives.h>
 
 VScreenType     backscreen;
 VScreenType     background;
@@ -39,38 +39,31 @@ CreateBitmap (const int xv, const int yv)
     {
       /* HW surface should make create_bitmaps () during initialization,
        * but supposedly speeds up subsequent blitting. */
-      bitmap = SDL_CreateRGBSurface (SDL_HWSURFACE, xv, yv,
-				     sdl_screen->format->BitsPerPixel,
-				     sdl_screen->format->Rmask,
-				     sdl_screen->format->Gmask,
-				     sdl_screen->format->Bmask,
-				     sdl_screen->format->Amask);
+      bitmap.surface = SDL_CreateRGBSurface (0, xv, yv, 32,
+				     0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
     }
   else
     {
       /* Create a pixmap when we don't have a screen yet. No attempts at
        * matching the pixel format, this is likely a window icon. */
-      bitmap = SDL_CreateRGBSurface (SDL_SWSURFACE, xv, yv,
-				     32, 0xff000000, 0x00ff0000, 0x0000ff00,
-				     0x00000000);
+      bitmap.surface = SDL_CreateRGBSurface (SDL_SWSURFACE, xv, yv, 32,
+				0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
     }
 
-  if (bitmap == NULL)
+  if (bitmap.surface == NULL)
     {
       fprintf (stderr, "%s\n", SDL_GetError ());
-      return NULL;
+      return bitmap;
     }
 
-  /* Use a color that's not in the palette as transparent.
-   * Anything not divisible by 4 will do. */
-  if (SDL_SetColorKey (bitmap, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		       SDL_MapRGB (bitmap->format, 1, 1, 1)))
+  bitmap.renderer = SDL_CreateSoftwareRenderer(bitmap.surface);
+  if (bitmap.renderer == NULL)
     {
       fprintf (stderr, "%s\n", SDL_GetError ());
-      SDL_FreeSurface (bitmap);
-      return NULL;
+      SDL_FreeSurface (bitmap.surface);
+      bitmap.surface = NULL;
+      return bitmap;
     }
-  SDL_FillRect (bitmap, NULL, SDL_MapRGB (bitmap->format, 1, 1, 1));
 
   return bitmap;
 }
@@ -94,7 +87,7 @@ SetScreen (VScreenType screen)
 void
 ClearScreen (void)
 {
-  SDL_FillRect (current, NULL, SDL_MapRGB (current->format, 0, 0, 0));
+  SDL_FillRect (current.surface, NULL, SDL_MapRGB (current.surface->format, 0, 0, 0));
 }
 
 /* Blit a surface onto physical screen surface and make sure it's
@@ -102,15 +95,17 @@ ClearScreen (void)
 void
 CopyToScreen (VScreenType source)
 {
-  SDL_BlitSurface (source, NULL, sdl_screen, NULL);
-  SDL_UpdateRect (sdl_screen, 0, 0, 0, 0);
+  SDL_RenderPresent(source.renderer);
+  SDL_BlitSurface (source.surface, NULL, sdl_screen, NULL);
+
+  SDL_UpdateWindowSurface(sdl_window);
 }
 
 /* Blit a surface onto another one. */
 void
 CopyVSToVS (VScreenType source, VScreenType destination)
 {
-  SDL_BlitSurface (source, NULL, destination, NULL);
+  SDL_BlitSurface (source.surface, NULL, destination.surface, NULL);
 }
 
 /* Turn on clipping so that out-of-bounds draws are safely discarded.
@@ -136,7 +131,7 @@ void
 BSetPixel (RawBitmapType bitmap, int x, int y, int c)
 {
   if (c)
-    pixelColor (bitmap, x, y, palette[c]);
+    pixelColor (bitmap.renderer, x, y, palette[c]);
 }
 
 /* Draw a pixel of a player as it builds up in the game area.
@@ -144,7 +139,7 @@ BSetPixel (RawBitmapType bitmap, int x, int y, int c)
 void
 SMySetPixel (VScreenType screen, int x, int y, int c)
 {
-  pixelColor (screen, x, y >> 8, palette[c]);
+  pixelColor (screen.renderer, x, y >> 8, palette[c]);
 }
 
 /* Draw a sprite onto the current screen surface. */
@@ -156,7 +151,7 @@ PutBitmap (const int x, const int y, const int xsize, const int ysize,
   dst.x = x;
   dst.y = y;
 
-  SDL_BlitSurface (bitmap, NULL, current, &dst);
+  SDL_BlitSurface (bitmap.surface, NULL, current.surface, &dst);
 }
 
 /* Get a color of a pixel in current surface. Only used to draw the blue
@@ -167,20 +162,20 @@ SGetPixel (int x, int y)
   int             c = 0;
   Uint8           r, g, b;
   Uint32          color;
-  Uint32         *pixels = current->pixels;
-  SDL_GetRGB (pixels[y * current->w + x], current->format, &r, &g, &b);
+  Uint32         *pixels = current.surface->pixels;
+  SDL_GetRGB (pixels[y * current.surface->w + x], current.surface->format, &r, &g, &b);
 
-  color = 0x000000ff;
-  color |= r << 24;
-  color |= g << 16;
-  color |= b << 8;
+  color = 0xff000000;
+  color |= r << 0;
+  color |= g << 8;
+  color |= b << 16;
 
   do
     {
       if (palette[c] == color)
 	return c;
     }
-  while (c++ <= COLORS);
+  while (++c < COLORS);
 
   return 0;
 }
@@ -190,21 +185,21 @@ SGetPixel (int x, int y)
 void
 SPutPixel (int x, int y, int c)
 {
-  pixelColor (current, x, y, palette[c]);
+  pixelColor (current.renderer, x, y, palette[c]);
 }
 
 /* Draw text. Used to draw the "Sector #" message between levels. */
 void
 DrawText (int x, int y, char *text)
 {
-  stringColor (current, x, y, text, 0xffffffff);
+  stringColor (current.renderer, x, y, text, 0xffffffff);
 }
 
 /* Draw black text. Used to draw shadow in menu text beneath white text. */
 void
 DrawBlackMaskedText (int x, int y, char *text)
 {
-  stringColor (current, x, y, text, 0x000000ff);
+  stringColor (current.renderer, x, y, text, 0xff000000);
 }
 
 /* Draw white text, on top of black shadow in menu screen and the
@@ -212,14 +207,14 @@ DrawBlackMaskedText (int x, int y, char *text)
 void
 DrawWhiteMaskedText (int x, int y, char *text)
 {
-  stringColor (current, x, y, text, 0xffffffff);
+  stringColor (current.renderer, x, y, text, 0xffffffff);
 }
 
 /* Draw the selection rectangle in menu screen. */
 void
 DrawRectangle (int x1, int y1, int x2, int y2, int color)
 {
-  rectangleColor (current, x1, y1, x2, y2, palette[color]);
+  rectangleColor (current.renderer, x1, y1, x2, y2, palette[color]);
 }
 
 /* A straight line. Used to delimit menu or play area from the lives/level
@@ -227,7 +222,7 @@ DrawRectangle (int x1, int y1, int x2, int y2, int color)
 void
 Line (int x1, int y1, int x2, int y2, int c)
 {
-  lineColor (current, x1, y1, x2, y2, palette[c]);
+  lineColor (current.renderer, x1, y1, x2, y2, palette[c]);
 }
 
 /* Draw a point in the background on the starwars screen.
@@ -235,7 +230,7 @@ Line (int x1, int y1, int x2, int y2, int c)
 void
 SSetPixel (int x, int y, int c)
 {
-  pixelColor (current, x, y, palette[c]);
+  pixelColor (current.renderer, x, y, palette[c]);
 }
 
 /* Draw thick line with perspective, for starwars screen. */
@@ -247,7 +242,7 @@ Line1 (int x1, int y1, int x2, int y2, int c)
   x2 = (int) (MAPWIDTH / 2 + (x2) * 220 / (1000 - (y2)) / DIV);
   y2 = (int) (MAPHEIGHT / 3 + MAPWIDTH * 220 / (1000 - (y2)));
 
-  thickLineColor (current, x1, y1, x2, y2, 2, palette[c]);
+  thickLineColor (current.renderer, x1, y1, x2, y2, 2, palette[c]);
 }
 
 /* Possibly optimized horizontal line version of the above.
@@ -272,10 +267,10 @@ SetPalette (Palette * pal)
   int             i = 0;
   do
     {
-      palette[i] = 0x000000ff;
-      palette[i] |= (pal->color[i].red * 4) << 24;
-      palette[i] |= (pal->color[i].green * 4) << 16;
-      palette[i] |= (pal->color[i].blue * 4) << 8;
+      palette[i] = 0xff000000;
+      palette[i] |= (pal->color[i].red * 4) << 0;
+      palette[i] |= (pal->color[i].green * 4) << 8;
+      palette[i] |= (pal->color[i].blue * 4) << 16;
     }
   while (++i < COLORS);
 }

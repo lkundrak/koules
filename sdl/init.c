@@ -20,8 +20,8 @@
 #include <signal.h>
 
 #include <SDL.h>
-#include <SDL_gfxPrimitives.h>
-#include <SDL_gfxPrimitives_font.h>
+#include <SDL2_gfxPrimitives.h>
+#include <SDL2_gfxPrimitives_font.h>
 
 #include "../koules.h"
 #include "../server.h"
@@ -45,6 +45,7 @@ int             GAMEWIDTH = WIDTH * DIVISOR;
 int             GAMEHEIGHT = HEIGHT * DIVISOR;
 
 SDL_Surface    *sdl_screen = NULL;
+SDL_Window     *sdl_window = NULL;
 
 static SDL_Surface *
 create_icon ()
@@ -55,7 +56,7 @@ create_icon ()
   int             x, y, r;
 
   img = CreateBitmap (radius * 2, radius * 2);
-  if (img == NULL)
+  if (img.surface == NULL)
     return NULL;
 
   for (y = 0; y < radius * 2; y++)
@@ -76,7 +77,7 @@ create_icon ()
 	    BSetPixel (img, x, y, 0);
 	  }
       }
-  return img;
+  return img.surface;
 }
 
 /* Tear down. */
@@ -104,49 +105,69 @@ initialize (void)
       return ret;
     }
 
-  SDL_WM_SetIcon (create_icon (), NULL);
-  sdl_screen = SDL_SetVideoMode (MAPWIDTH, MAPHEIGHT + 20, 32, 0);
+  sdl_window = SDL_CreateWindow("Koules",
+				SDL_WINDOWPOS_UNDEFINED,
+				SDL_WINDOWPOS_UNDEFINED,
+				MAPWIDTH, MAPHEIGHT + 20, 0);
+  if (sdl_window == NULL)
+    {
+      fprintf (stderr, "%s\n", SDL_GetError ());
+      return -1;
+    }
+  SDL_SetWindowIcon(sdl_window, create_icon ());
+
+  sdl_screen = SDL_GetWindowSurface(sdl_window);
   if (sdl_screen == NULL)
     {
       fprintf (stderr, "%s\n", SDL_GetError ());
       return -1;
     }
-  SDL_WM_SetCaption ("Koules for SDL version 1.4 by Jan Hubicka", "Koules");
 
-  backscreen = SDL_CreateRGBSurface (SDL_HWSURFACE,
+  backscreen.surface = SDL_CreateRGBSurface (0,
 				     sdl_screen->w, sdl_screen->h,
 				     sdl_screen->format->BitsPerPixel,
-				     sdl_screen->format->Rmask,
-				     sdl_screen->format->Gmask,
-				     sdl_screen->format->Bmask,
-				     sdl_screen->format->Amask);
-  if (backscreen == NULL)
+				     0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+  if (backscreen.surface == NULL)
     {
       fprintf (stderr, "%s\n", SDL_GetError ());
       return -1;
     }
 
-  background = SDL_CreateRGBSurface (SDL_HWSURFACE,
-				     sdl_screen->w, sdl_screen->h,
-				     sdl_screen->format->BitsPerPixel,
-				     sdl_screen->format->Rmask,
-				     sdl_screen->format->Gmask,
-				     sdl_screen->format->Bmask,
-				     sdl_screen->format->Amask);
-  if (background == NULL)
+  backscreen.renderer = SDL_CreateSoftwareRenderer (backscreen.surface);
+  if (backscreen.renderer == NULL)
     {
       fprintf (stderr, "%s\n", SDL_GetError ());
       return -1;
     }
 
-  starbackground = SDL_CreateRGBSurface (SDL_HWSURFACE,
-					 sdl_screen->w, sdl_screen->h,
-					 sdl_screen->format->BitsPerPixel,
-					 sdl_screen->format->Rmask,
-					 sdl_screen->format->Gmask,
-					 sdl_screen->format->Bmask,
-					 sdl_screen->format->Amask);
-  if (starbackground == NULL)
+  background.surface = SDL_CreateRGBSurface (0,
+				     sdl_screen->w, sdl_screen->h,
+				     sdl_screen->format->BitsPerPixel,
+				     0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+  if (background.surface == NULL)
+    {
+      fprintf (stderr, "%s\n", SDL_GetError ());
+      return -1;
+    }
+
+  background.renderer = SDL_CreateSoftwareRenderer (background.surface);
+  if (background.renderer == NULL)
+    {
+      fprintf (stderr, "%s\n", SDL_GetError ());
+      return -1;
+    }
+
+  starbackground.surface = SDL_CreateRGBSurface (0,
+					 sdl_screen->w, sdl_screen->h, 32,
+				 	 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
+  if (starbackground.surface == NULL)
+    {
+      fprintf (stderr, "%s\n", SDL_GetError ());
+      return -1;
+    }
+
+  starbackground.renderer = SDL_CreateSoftwareRenderer (starbackground.surface);
+  if (starbackground.renderer == NULL)
     {
       fprintf (stderr, "%s\n", SDL_GetError ());
       return -1;
