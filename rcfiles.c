@@ -26,7 +26,7 @@
 static CONST char *name = ".xkoules-controls";
 #else
 #ifdef SDLSUPPORT
-static CONST char *name = ".koules.sdl-controls";
+static CONST char *name = ".koules.sdl2-controls";
 #else
 #ifdef OS2DIVE
 static CONST char *name = "koules.cfg";

@@ -20,7 +20,8 @@
 
 #include <SDL.h>
 
-int             pressed[SDLK_LAST];
+#define MAX_PRESSED 256
+int             pressed[MAX_PRESSED];
 int             n_pressed = 0;
 int             last_pressed;
 
@@ -49,14 +50,49 @@ UpdateInput (void)
     case SDL_MOUSEBUTTONUP:
       n_pressed--;
       break;
+    case SDL_QUIT:
+      uninitialize ();
+      exit (0);
+    case SDL_WINDOWEVENT:
+      if (event.window.event == SDL_WINDOWEVENT_CLOSE)
+        {
+          uninitialize ();
+          exit (0);
+        }
     default:
       return;
     }
 
   if (val >= 0)
     {
-      n_pressed += val ? 1 : -1;
-      pressed[event.key.keysym.sym] = val;
+      int i;
+
+      for (i = 0; i < MAX_PRESSED; i++)
+        {
+          if (pressed[i] == event.key.keysym.sym)
+            {
+              n_pressed -= 1;
+              pressed[i] = 0;
+              break;
+            }
+        }
+
+      if (val)
+        {
+          if (n_pressed < MAX_PRESSED - 1)
+            {
+              for (i = 0; i < MAX_PRESSED; i++)
+                {
+                  if (pressed[i] == 0)
+                    {
+                      n_pressed += 1;
+                      pressed[i] = event.key.keysym.sym;
+                    }
+                  if (pressed[i] == event.key.keysym.sym)
+                    break;
+                }
+            }
+        }
     }
 }
 
@@ -78,55 +114,62 @@ Pressed (void)
 bool
 IsPressed (int key)
 {
-  return pressed[key] > 0;
+  int i;
+
+  for (i = 0; i < MAX_PRESSED; i++)
+    {
+      if (pressed[i] == key)
+        return 1;
+    }
+  return 0;
 }
 
 int
 IsPressedUp (void)
 {
-  return pressed[SDLK_UP];
+  return IsPressed(SDLK_UP);
 }
 
 int
 IsPressedDown (void)
 {
-  return pressed[SDLK_DOWN];
+  return IsPressed(SDLK_DOWN);
 }
 
 int
 IsPressedLeft (void)
 {
-  return pressed[SDLK_LEFT];
+  return IsPressed(SDLK_LEFT);
 }
 
 int
 IsPressedRight (void)
 {
-  return pressed[SDLK_RIGHT];
+  return IsPressed(SDLK_RIGHT);
 }
 
 int
 IsPressedEnter (void)
 {
-  return pressed[SDLK_RETURN] || pressed[SDLK_KP_ENTER];
+  return IsPressed(SDLK_RETURN) || IsPressed(SDLK_KP_ENTER);
 }
 
 int
 IsPressedEsc (void)
 {
-  return pressed[SDLK_ESCAPE];
+  return IsPressed(SDLK_ESCAPE);
 }
 
 int
 IsPressedH (void)
 {
-  return pressed[SDLK_h];
+  return IsPressed(SDLK_h);
 }
 
 int
 IsPressedP (void)
 {
-  return pressed[SDLK_p];
+  return IsPressed(SDLK_p);
 }
 
 #ifdef MOUSE
