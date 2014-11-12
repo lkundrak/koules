@@ -277,5 +277,5 @@ SetPalette (Palette * pal)
       palette[i] |= (pal->color[i].green * 4) << 16;
       palette[i] |= (pal->color[i].blue * 4) << 8;
     }
-  while (++i <= COLORS);
+  while (++i < COLORS);
 }
