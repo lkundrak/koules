@@ -678,7 +678,7 @@ contact ()
   int             bytes;
   int             sock, my_port;
   int             accept = 1;
-  char           *in_host, version = 1;
+  char           version = 1;
   if (connected >= 6)
     {
       printf ("Maximum number of clients reached!\n");
@@ -729,7 +729,6 @@ contact ()
       accept = 0;
   }
 /*Is server able to accept it? */
-  in_host = DgramLastaddr ();
   connp = conn + connected;
   connp->version = buffer[8];
   strcpy (connp->hostname, DgramLastaddr ());
