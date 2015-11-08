@@ -510,6 +510,7 @@ ssendbuffer (int client)
 	{
 	  perror ("Socket error");
 	  Quit ("Server error:can not send message to client ");
+	  return;
 	}
     }
   packets++;
@@ -550,6 +551,12 @@ ssendreliable (int client, unsigned char *message, int size)
   if (conn[client].rpos + size + 6 > BUFFERSIZE)
     {
       Quit ("Connection to client broken too long! Reliable buffer owerfllow\n");
+      return;
+    }
+  if (message[0] >= MAXPACKET)
+    {
+      Quit ("Bad packet\n");
+      return;
     }
 
   PUTLONG ((conn[client].rbuffer + conn[client].rpos), conn[client].rcount);
@@ -842,6 +849,7 @@ client_message (struct conn *c)
       perror ("Socket error");
       GetSocketError (c->socket);
       Quit ("Connection to client broken-exiting game\n");
+      return;
     }
   isize += bytes;
   GETLONG (ibuffer, scount);
