@@ -71,25 +71,25 @@ koules.svga: $(PROGS_O)
 	$(CC) $(OPTIMIZE1) $(CFLAGS) $(LFLAGS) -o koules.svga $(PROGS_O) $(LIBS) -lm
 
 install:: $(PROG) $(SOUNDSERVER)
-	@echo "Koules directory is " $(BINDIR)
+	@echo "Koules directory is " $(DESTDIR)$(BINDIR)
 	@:
-	@echo "Instalin man page to " $(MANDIR)
-	$(INSTALL) -c $(INSTMANFLAGS) koules.svga.6 $(MANDIR);
+	@echo "Instalin man page to " $(DESTDIR)$(MANDIR)
+	$(INSTALL) -c $(INSTMANFLAGS) koules.svga.6 $(DESTDIR)$(MANDIR);
 	@:
-	@echo "Creating directory " $(BINDIR)
-	@if [ ! -d $(BINDIR) ]; then mkdir $(BINDIR); fi
-	$(INSTALL) -c -s $(INSTBINFLAGS) koules.svga $(BINDIR)
+	@echo "Creating directory " $(DESTDIR)$(BINDIR)
+	@if [ ! -d $(DESTDIR)$(BINDIR) ]; then mkdir $(DESTDIR)$(BINDIR); fi
+	$(INSTALL) -c -s $(INSTBINFLAGS) koules.svga $(DESTDIR)$(BINDIR)
 	@:
 	@if [ "$(INSTALLSOUND)" = "True" ]; 				\
 	 then								\
-		echo "Creating directory " $(SOUNDDIR); 		\
-		if [ ! -d $(SOUNDDIR) ]; then mkdir $(SOUNDDIR); fi;    \
-		echo "Copying sound server to directory " $(SOUNDDIR); \
-		$(INSTALL) -c -s $(INSTBIN1FLAGS) $(SOUNDSERVER) $(SOUNDDIR); \
-		echo "Copying sound files into directory " $(SOUNDDIR); \
+		echo "Creating directory " $(DESTDIR)$(SOUNDDIR); 		\
+		if [ ! -d $(DESTDIR)$(SOUNDDIR) ]; then mkdir $(DESTDIR)$(SOUNDDIR); fi;    \
+		echo "Copying sound server to directory " $(DESTDIR)$(SOUNDDIR); \
+		$(INSTALL) -c -s $(INSTBIN1FLAGS) $(SOUNDSERVER) $(DESTDIR)$(SOUNDDIR); \
+		echo "Copying sound files into directory " $(DESTDIR)$(SOUNDDIR); \
 		cd ./sounds; set -x;					\
 		for file in *.raw; do					\
-		    $(INSTALL) -c $(INSTDATFLAGS) $$file $(SOUNDDIR);	\
+		    $(INSTALL) -c $(INSTDATFLAGS) $$file $(DESTDIR)$(SOUNDDIR);	\
 		done;   						\
 	 fi
 	@echo "Don't forget to remove your old koules from /usr/games/koules "
