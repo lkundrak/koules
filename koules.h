@@ -289,20 +289,6 @@ extern unsigned char rocketcolor[5];
 
 #endif
 
-#if defined(__GNUC__)&&!defined(ONLYANSI)
-static inline void
-normalize (float *x, float *y, CONST float size)
-{
-  float           length = sqrt ((*x) * (*x) + (*y) * (*y));
-  if (length == 0)
-    length = 1;
-  *x *= size / length;
-  *y *= size / length;
-}
-#else
-extern void     normalize (float *, float *, CONST float);
-#endif
-
 extern void     addpoint (CONST int, CONST int, CONST int, CONST int, CONST int, CONST int);
 extern void     destroy (CONST int);
 extern void     creator (CONST int);
