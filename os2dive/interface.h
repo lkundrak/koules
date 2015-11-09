@@ -71,21 +71,21 @@ gl_putboxmaskcompiled((x),(y),(xsize),(ysize),(bitmap))
 #define EnableClipping() gl_enableclipping()
 #define DisableClipping() gl_disableclipping()
 
-extern inline void
+static inline void
 DrawBlackMaskedText (int x, int y, char *text)
 {
   gl_setwritemode (WRITEMODE_MASKED);
   gl_setfont (8, 8, fontblack);
   gl_write (x, y, text);
 }
-extern inline void
+static inline void
 DrawWhiteMaskedText (int x, int y, char *text)
 {
   gl_setwritemode (WRITEMODE_MASKED);
   gl_setfont (8, 8, fontwhite);
   gl_write (x, y, text);
 }
-extern inline void
+static inline void
 DrawText (int x, int y, char *text)
 {
   gl_setwritemode (WRITEMODE_OVERWRITE);
@@ -93,7 +93,7 @@ DrawText (int x, int y, char *text)
   gl_write (x, y, text);
 }
 
-extern inline void  DrawRectangle(int x1, int y1, int x2, int y2, int color)
+static inline void  DrawRectangle(int x1, int y1, int x2, int y2, int color)
 {
   gl_line ((int) x1, (int) y1, (int) x1, (int) y2, color);
   gl_line ((int) x1, (int) y2, (int) x2, (int) y2, color);
@@ -101,7 +101,7 @@ extern inline void  DrawRectangle(int x1, int y1, int x2, int y2, int color)
   gl_line ((int) x2, (int) y1, (int) x1, (int) y1, color);
 }
 
-extern inline BYTE*CompileBitmap(int x, int y, BYTE *bitmap)
+static inline BYTE*CompileBitmap(int x, int y, BYTE *bitmap)
 {
     int size1;
     BYTE *cbitmap;
@@ -117,13 +117,13 @@ extern inline BYTE*CompileBitmap(int x, int y, BYTE *bitmap)
 #define FillRectangle(x,y,x1,y1,color) gl_fillbox((x),(y),(x1),(y1),(color))
 
 #define ClearScreen() gl_clearscreen (0)
-extern inline void
+static inline void
 CopyVSToVS (VScreenType source, VScreenType destination)
 {
   SetScreen (source);
   gl_copyscreen (destination);
 }
-extern inline void
+static inline void
 CopyToScreen (VScreenType source)
 {
 /*  O.K. we are cheating. It saves us for 1 screen copy. */

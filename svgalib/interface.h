@@ -76,21 +76,21 @@ extern VScreenType starbackground;
 #endif
 #define SetScreen(screen) gl_setcontext (screen)
 
-extern inline void
+static inline void
 DrawBlackMaskedText (int x, int y, char *text)
 {
   gl_setwritemode (WRITEMODE_MASKED);
   gl_setfont (8, 8, fontblack);
   gl_write (x, y, text);
 }
-extern inline void
+static inline void
 DrawWhiteMaskedText (int x, int y, char *text)
 {
   gl_setwritemode (WRITEMODE_MASKED);
   gl_setfont (8, 8, fontwhite);
   gl_write (x, y, text);
 }
-extern inline void
+static inline void
 DrawText (int x, int y, char *text)
 {
   gl_setwritemode (WRITEMODE_OVERWRITE);
@@ -98,7 +98,7 @@ DrawText (int x, int y, char *text)
   gl_write (x, y, text);
 }
 
-extern inline void
+static inline void
 DrawRectangle (int x1, int y1, int x2, int y2, int color)
 {
   gl_line ((int) x1, (int) y1, (int) x1, (int) y2, color);
@@ -107,7 +107,7 @@ DrawRectangle (int x1, int y1, int x2, int y2, int color)
   gl_line ((int) x2, (int) y1, (int) x1, (int) y1, color);
 }
 
-extern inline char *
+static inline char *
 CompileBitmap (int x, int y, char *bitmap)
 {
   int             size1;
@@ -127,7 +127,7 @@ CompileBitmap (int x, int y, char *bitmap)
 #define DisableClipping() gl_disableclipping()
 #define ClearScreen() gl_clearscreen (0)
 extern void flippage(void);
-extern inline void
+static inline void
 CopyVSToVS (VScreenType source, VScreenType destination)
 {
   SetScreen (source);
@@ -136,7 +136,7 @@ CopyVSToVS (VScreenType source, VScreenType destination)
     gl_copyboxtocontext(0,0,MAPWIDTH,MAPHEIGHT+20,destination,0,0);
   }
 }
-extern inline void
+static inline void
 CopyToScreen (VScreenType source)
 {
   SetScreen (source);

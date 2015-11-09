@@ -290,7 +290,7 @@ extern unsigned char rocketcolor[5];
 #endif
 
 #if defined(__GNUC__)&&!defined(ONLYANSI)
-extern inline void
+static inline void
 normalize (float *x, float *y, CONST float size)
 {
   float           length = sqrt ((*x) * (*x) + (*y) * (*y));

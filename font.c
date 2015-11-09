@@ -428,7 +428,7 @@ static int      stop_after_this_x = NO_CLIP_FONT;
 
 /* never mind. Character building, wasn't it? (groan) */
 #if 0
-#define BEST extern inline
+#define BEST static inline
 #else
 #define BEST static
 #endif

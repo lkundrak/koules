@@ -44,7 +44,7 @@ extern int      joystickdevice[2];
 /*here is probably bug....
    some users reported that these functions not work...
    probably sometimes some keys are reported as pressed */
-extern inline int
+static inline int
 Pressed ()
 {
   int             z;
@@ -68,7 +68,7 @@ Pressed ()
       }
   return (0);
 }
-extern inline int
+static inline int
 GetKey ()
 {
   int             z, k = 0;
