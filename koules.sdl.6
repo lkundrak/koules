@@ -1,0 +1,161 @@
+.TH KOULES 6 "9 nov 2015" "Linux" "games"
+
+.SH NAME
+koules.sdl \- Action game for linux
+
+.SH SYNOPSIS
+koules.sdl [-slMmdh]
+
+.SH KOULES FROM THE TOP:
+.br
+
+.br
+                             .
+.br
+                 ---       .  .                    O
+.br
+                /   \\        . .
+.br
+               |     |    . . .. ---
+.br
+                \\   /           /   \\        X           O
+.br
+                 ---           |    O|
+.br
+                                \\  O/
+.br
+                                 ---       ---
+.br
+                .       O                 /O O\\
+.br
+             . . . .                     |     |
+.br
+              . . .                       \\   /
+.br
+            .  .X.  .          O           ---
+.br
+              . . .                         .
+.br
+             . . . .                       ...
+.br
+                .                         . . .
+.br
+                                         . . . .
+.br
+                                        .   .   .
+.br
+                        H A V E
+.br
+                          FUN
+.br
+                           !
+
+
+.SH DESCRIPTION
+.B Koules
+is an action game. The mission is to bounce all koules fighters from your 
+sector
+
+.SH "OPTIONS"
+.TP
+.B \-h 
+for help
+.TP
+.B \-s 
+for small display(320x200)
+for worse machines
+.TP
+.B \-l 
+for large display(640x480)
+default size
+.TP
+.B \-M 
+disable mouse support
+.TP
+.B \-d 
+Disable sound support
+Game will run faster.
+.SH "Network options"
+.TP
+.B \-C<host>
+run koules as network client
+.TP
+.B \-S
+run koules as network server
+.TP
+.B \-P<port>
+select port. Default is:12345
+    Use this in case that some other program is already using this port.
+
+.SH "Server options"
+.TP
+.B \-E
+run server in extra large-support for 800x620 X clients.
+.TP
+.B \-W
+run server in wide mode-support for 320x200 svgalib and OS/2 clients.
+    Use this in case that server is refusing your clients.
+.TP
+.B \-L<level>
+select level for server
+.TP
+.B \-D<number>
+select dificulty for server:
+     0: nightmare
+     1: hard
+     2: medium(default and recomended)
+     3: easy
+     4: very easy
+.TP
+.B \-K
+run server in deathmatch mode
+.SH "Points:"
+.br
+  Bounce something         :  +1
+.br
+  Eat extension            :  +10
+.br
+  Eat thief		   :  -30
+.br
+  Eat friend		   :  +30
+.br
+.B  At end of level
+.br
+  every live               :  +20
+.br
+  every lost level         :  -100
+.br
+.B  In deathmatch mode
+.br
+  every destroyed concurrent:  +100
+
+
+.SH PORTABILITY
+
+The program is written in ANSI C and uses the SDL graphics library.
+
+.SH BUGS
+
+Probably not as fast as it could be.
+
+Doesn't use screen area wisely.
+
+.SH SEE ALSO
+http://www.paru.cas.cz/~hubicka/koules/English/koules.html
+.SH AUTHOR
+Jan Hubicka
+
+.B email:
+hubicka@limax.paru.cas.cz
+.br
+
+.B smail:
+.br
+       Jan Hubicka
+.br
+       Dukelskych bojovniku 1944
+.br
+       Tabor 39001
+.br
+       Czech Republic
+
